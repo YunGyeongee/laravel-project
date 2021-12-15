@@ -41,4 +41,9 @@ class BoardController extends Controller
         ]);
         return redirect('/boards/'.$board->id);
     }
+
+    public function destroy(Board $board){
+        $board->delete();
+        return redirect('/boards');
+    }
 }
