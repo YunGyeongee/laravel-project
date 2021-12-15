@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/boards', 'App\Http\Controllers\BoardController@index');
+Route::get('/boards/create', 'App\Http\Controllers\BoardController@create');
+Route::post('/boards', 'App\Http\Controllers\BoardController@store');
+
