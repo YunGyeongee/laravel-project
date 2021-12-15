@@ -27,7 +27,9 @@ class BoardController extends Controller
     }
 
     public function read(Board $board){
-        return view('boards.read', compact('board'));
+        $boardID = $board->id;
+        $reply = DB::table('replies')->where('ReplyContent', '=', $boardID)->get();
+        return view('boards.read', compact('board', 'reply'));
     }
 
     public function edit(Board $board){
