@@ -29,4 +29,16 @@ class BoardController extends Controller
     public function read(Board $board){
         return view('boards.read', compact('board'));
     }
+
+    public function edit(Board $board){
+        return view('boards.edit', compact('board'));
+    }
+
+    public function update(Board $board){
+        $board->update([
+            'title'=>request('title'),
+            'content'=>request('content')
+        ]);
+        return redirect('/boards/'.$board->id);
+    }
 }
