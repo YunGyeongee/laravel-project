@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/boards', 'App\Http\Controllers\BoardController@index');
 Route::get('/boards/create', 'App\Http\Controllers\BoardController@create');
 Route::post('/boards', 'App\Http\Controllers\BoardController@store');
-
+Route::get('/boards/{board}', 'App\Http\Controllers\BoardController@read');

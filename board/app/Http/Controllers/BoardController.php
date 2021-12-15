@@ -25,4 +25,8 @@ class BoardController extends Controller
         ]);
         return redirect('/boards');
     }
+
+    public function read(Board $board){
+        return view('boards.read', compact('board'));
+    }
 }
