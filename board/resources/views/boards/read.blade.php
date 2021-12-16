@@ -16,14 +16,14 @@
         @foreach($reply as $item)
             <div class="Reply-list">
                 <p>익명</p>
-                <div>{{ $item -> ReplyContent }}</div>
+                <div>{{ $item -> replyContent }}</div>
             </div>
         @endforeach
 
         <form method="POST" action="/reply/store">
             @csrf
             <input type="hidden" name="board_id" value="{{ $board->id }}">
-            <textarea name="ReplyContent"></textarea>
+            <textarea name="replyContent"></textarea>
             <input type="submit" value="작성">
         </form>
     </div>
