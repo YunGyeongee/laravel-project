@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Board;
 use App\Models\Reply;
+use App\Models\Replies;
 
 class BoardController extends Controller
 {
@@ -37,25 +38,35 @@ class BoardController extends Controller
         }
     }
 
-    public function read(Request $request, Board $board, Reply $reply){
-        $boardID = $board->id;
-        $reply = DB::table('replies')->where('content', '=', $boardID)->get();
-        return view('boards.read', compact('board', 'reply'));
+    public function read(Request $request){
+        $board = Board::find($reqeust->id);
+        $reply->fill($request)->save();
+        //필요한 컬럼과 , where 조건문은 수정이 필요합니다.
+        $reply = Replies::select('id', 'content')
+            ->where([['board_id', $board->id], ['status', 0]])
+            ->orderBy('id', 'ASC')
+            ->get()
+        // $reply = DB::table('replies')->where('content', '=', $boardID)->get();
+        return view('boards.read', ['reqeust' => $request]);
     }
 
-    public function edit(Request $request, Board $board){
-        return view('boards.edit', compact('board'));
+    public function edit(Request $request){
+        $board = Board::find($request->id);
+        return view('boards.edit', ['board' => $board]);
     }
 
-    public function update(Request $request, Board $board){
+    public function update(Request $request){
+        // request 이용해 관리할 테이블의 고유 인덱스값을 주고 받아 필요한 쿼리빌더 요청
+        $request = $board->id
+        
         // 유효성 검사
         $validation = Validator::make(request()->all(), [
             'title' => 'required',
             'content' => 'required'
         ]);
-        
-        // request 이용해 관리할 테이블의 고유 인덱스값을 주고 받아 필요한 쿼리빌더 요청
-        $request = $board->id
+
+        // // Reply 모델 참조해서 update
+        // Reply::update($validation);
 
         if($validation->falis()){
             return redirect()->back();
@@ -64,14 +75,20 @@ class BoardController extends Controller
                 'title' => request() -> title,
                 'content' => request() -> content
             ]);
+
+            $request->fill($validation)->save();
+
             return redirect('/boards/'.$request);
         }
     }
 
-    public function destroy(Request $request, Board $board){
+    public function destroy(Request $request){
         //$board->delete(); -> 직접적인 데이터 삭제 지양
-        $boards = DB::update('update boards set id = ? where status = ?', ['id', 'N']);
-        
+        $request = $board->id
+        $delete = DB::table('boards')
+                    ->where('id', $request)
+                    ->update(['status' => 'N']);
+
         return redirect('/boards');
     }
 }
