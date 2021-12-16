@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reply;
 
 class ReplyController extends Controller
 {
@@ -15,7 +16,7 @@ class ReplyController extends Controller
         if($validator->fails()){
             return redirect()->back();
         } else{
-            Comment::create([
+            Reply::create([
                 'board_id' => request() -> board_id,
                 'ReplyContent' => request() -> ReplyContent
             ]);

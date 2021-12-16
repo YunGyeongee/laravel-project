@@ -17,6 +17,7 @@ class CreateBoardsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('content');
+            $table->string('status');
             $table->timestamps();
         });
     }
