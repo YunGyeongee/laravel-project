@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('/boards/reply', 'App\Http\Controllers\ReplyController@store');
+Route::get('/boards/reply/update', 'App\Http\Controllers\ReplyController@update');
+Route::get('/boards/reply/destroy', 'App\Http\Controllers\ReplyController@destroy');
+
 Route::get('/boards', 'App\Http\Controllers\BoardController@index');
-Route::get('/boards2', 'App\Http\Controllers\BoardController@index');
 Route::get('/boards/create', 'App\Http\Controllers\BoardController@create');
 Route::post('/boards', 'App\Http\Controllers\BoardController@store');
 Route::get('/boards/{board}', 'App\Http\Controllers\BoardController@read');

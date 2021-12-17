@@ -21,4 +21,38 @@ class ReplyController extends Controller
 
         return redirect()->back();
     }
+
+    public function update(Request $request, Reply $reply){
+        request()->validate([
+            'content' => 'required'
+        ]);
+
+        $reply->update([
+            'content'=>request('content')
+        ]);
+
+        return redirect()->back();
+
+    }
+
+    public function destroy(Request $request, Reply $reply){
+        $reply_id = $request->input('id');
+        
+        $reply = Reply::select('status')
+            ->where('id', $reply_id)
+            ->first();
+        if(!$reply) {
+            return '존재하지 않는 댓글 입니다.';
+        } else if($reply->status == 1) {
+            return '이미 삭제된 댓글 입니다.';
+        } else {
+            $result = Reply::where('id', $reply_id)->update(['status' => 1]);
+
+            if ($result > 0) {
+                return redirect()->back();
+            } else {
+                return 'error';
+            }
+        }
+    }
 }

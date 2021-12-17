@@ -35,15 +35,19 @@ class BoardController extends Controller
 
     public function read(Request $request, Board $board, Reply $reply){
         $board_id = $board->id;
+        $reply_id = $request->input('reply_id');
+        $r_board_id = $request->input('r_board_id');
+
         $board = Board::select('title', 'content', 'id')
             ->where('id', $board_id)
             ->first();
 
         // 댓글 조회
-        $reply = Reply::select('content')
-            ->where('board_id', '=', $board_id)
+        $reply = Reply::select('id', 'board_id', 'content', 'status')
+            ->where([['board_id', $board_id], ['status', 0]])
+            // ->join('boards', 'boards.id', '=', 'board_id')
             ->get();
-
+        
         return view('boards.read', compact('board', 'reply'));
     }
 
