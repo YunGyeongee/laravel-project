@@ -20,8 +20,7 @@
         <p>댓글 목록</p><br>
         @foreach($reply as $item)
             <div class="Reply-list">
-                <p>익명</p>
-                <div>{{ $item -> content }}</div>
+                <p>익명 | {{ $item -> content }}</p>
             </div>
         @endforeach
 

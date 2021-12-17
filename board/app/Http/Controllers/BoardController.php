@@ -33,9 +33,16 @@ class BoardController extends Controller
         return redirect('/boards');
     }
 
-    public function read(Request $request, Board $board){
-        $boardID = $board->id;
-        $reply = DB::table('replies')->where('ReplyContent', '=', $boardID)->get();
+    public function read(Request $request, Board $board, Reply $reply){
+        $board_id = $board->id;
+        $board = Board::select('title', 'content')
+            ->where('id', $board_id)
+            ->first();
+
+        // 댓글 조회
+        $reply = Reply::select('content')
+            ->where('board_id', '=', $board_id)
+            ->get();
         return view('boards.read', compact('board', 'reply'));
     }
 
