@@ -35,7 +35,7 @@ class BoardController extends Controller
 
     public function read(Request $request, Board $board, Reply $reply){
         $board_id = $board->id;
-        $board = Board::select('title', 'content')
+        $board = Board::select('title', 'content', 'id')
             ->where('id', $board_id)
             ->first();
 
@@ -43,6 +43,7 @@ class BoardController extends Controller
         $reply = Reply::select('content')
             ->where('board_id', '=', $board_id)
             ->get();
+
         return view('boards.read', compact('board', 'reply'));
     }
 

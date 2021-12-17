@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::post('/boards/reply', 'App\Http\Controllers\ReplyController@store');
 Route::get('/boards', 'App\Http\Controllers\BoardController@index');
+Route::get('/boards2', 'App\Http\Controllers\BoardController@index');
 Route::get('/boards/create', 'App\Http\Controllers\BoardController@create');
 Route::post('/boards', 'App\Http\Controllers\BoardController@store');
 Route::get('/boards/{board}', 'App\Http\Controllers\BoardController@read');
 Route::get('/boards/{board}/edit', 'App\Http\Controllers\BoardController@edit');
-Route::put('/boards/{board}', 'App\Http\Controllers\BoardController@update');
+Route::post('/boards/{board}', 'App\Http\Controllers\BoardController@update');
 Route::post('/boards/{board}', 'App\Http\Controllers\BoardController@destroy');
-Route::post('/reply/store', 'App\Http\Controllers\ReplyController@store');

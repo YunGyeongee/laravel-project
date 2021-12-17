@@ -20,14 +20,18 @@
         <p>댓글 목록</p><br>
         @foreach($reply as $item)
             <div class="Reply-list">
-                <p>익명 | {{ $item -> content }}</p>
+                <p>
+                    익명 | {{ $item -> content }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    <button>수정</button>&nbsp;
+                    <button>삭제</button> 
+                </p> 
             </div>
         @endforeach
 
-        <form method="POST" action="/reply/store">
+        <form method="POST" action="/boards/reply">
             @csrf
             <input type="hidden" name="board_id" value="{{ $board->id }}">
-            <textarea name="content"></textarea>
+            <textarea cols="50" rows="2" name="content"></textarea>
             <input type="submit" value="작성">
         </form>
     </div>
