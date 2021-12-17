@@ -19,5 +19,5 @@ Route::post('/boards', 'App\Http\Controllers\BoardController@store');
 Route::get('/boards/{board}', 'App\Http\Controllers\BoardController@read');
 Route::get('/boards/{board}/edit', 'App\Http\Controllers\BoardController@edit');
 Route::put('/boards/{board}', 'App\Http\Controllers\BoardController@update');
-Route::delete('/boards/{board}', 'App\Http\Controllers\BoardController@destroy');
+Route::post('/boards/{board}', 'App\Http\Controllers\BoardController@destroy');
 Route::post('/reply/store', 'App\Http\Controllers\ReplyController@store');

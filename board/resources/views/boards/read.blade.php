@@ -8,6 +8,7 @@
         <a href="/boards/{{ $board->id }}/edit"><button>수정</button></a>
         <a href="/boards"><button>목록</button></a>
         <form style="display:inline;" action="/boards/{{ $board->id }}" method="POST">
+        <input type="hidden" name="board_id" value="{{ $board->id }}">
             @csrf
             @method('DELETE')
         <button>삭제</button>

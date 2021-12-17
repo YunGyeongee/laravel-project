@@ -33,31 +33,51 @@ class BoardController extends Controller
         return redirect('/boards');
     }
 
-    public function read(Board $board){
+    public function read(Request $request, Board $board){
         $boardID = $board->id;
         $reply = DB::table('replies')->where('ReplyContent', '=', $boardID)->get();
         return view('boards.read', compact('board', 'reply'));
     }
 
-    public function edit(Board $board){
+    public function edit(Request $request, Board $board){
         return view('boards.edit', compact('board'));
     }
 
-    public function update(Board $board){
+    public function update(Request $request, Board $board){
+
+        request()->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
         $board->update([
             'title'=>request('title'),
             'content'=>request('content')
         ]);
+
         return redirect('/boards/'.$board->id);
     }
 
-    public function destroy(Board $board){
+    public function destroy(Request $request, Board $board){
         // -> 직접적인 데이터 삭제 지양
-        $board->delete(); 
-        
-        // $boardID = $board->id
-        // $board = DB::update('update boards set status = 1 where = ?', $boardID);
+        // $board->delete(); 
+        $board_id = $request->input('board_id');
+        $board = Board::select('status')
+            ->where('id', $board_id)
+            ->first();
 
-        return redirect('/boards');
+        if (!$board) {
+            return '존재하지 않는 게시글 입니다.';
+        } else if($board->status == 1) {
+            return '이미 삭제된 게시글 입니다.';
+        } else {
+            $result = Board::where('id', $board_id)->update(['status' => 1]);
+
+            if ($result > 0) {
+                return redirect('/boards');
+            } else {
+                return '오류가 발생하였습니다.';
+            }
+        }
     }
 }
