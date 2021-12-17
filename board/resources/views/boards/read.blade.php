@@ -7,7 +7,11 @@
         </pre>
         <a href="/boards/{{ $board->id }}/edit"><button>수정</button></a>
         <a href="/boards"><button>목록</button></a>
-        <a href="/boards/{{ $board->id }}"><button>삭제</button></a>
+        <form style="display:inline;" action="/boards/{{ $board->id }}" method="POST">
+            @csrf
+            @method('DELETE')
+        <button>삭제</button>
+        </form>
     </div>
     <br>
 
@@ -16,14 +20,14 @@
         @foreach($reply as $item)
             <div class="Reply-list">
                 <p>익명</p>
-                <div>{{ $item -> replyContent }}</div>
+                <div>{{ $item -> content }}</div>
             </div>
         @endforeach
 
         <form method="POST" action="/reply/store">
             @csrf
             <input type="hidden" name="board_id" value="{{ $board->id }}">
-            <textarea name="replyContent"></textarea>
+            <textarea name="content"></textarea>
             <input type="submit" value="작성">
         </form>
     </div>

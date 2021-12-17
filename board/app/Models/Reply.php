@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
     protected $fillable = ['board_id', 'content'];
+
 }
