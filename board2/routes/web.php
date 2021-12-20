@@ -20,5 +20,6 @@ Route::get('/', function () {
 
 Route::post('/login', 'App\Http\Controllers\MemberController@login');
 Route::get('/logout', 'App\Http\Controllers\MemberController@logout');
-Route::get('/myPage', 'App\Http\Controllers\MemberController@myPage');
+Route::get('/members/{member}', 'App\Http\Controllers\MemberController@myPage');
 Route::get('/main', 'App\Http\Controllers\MemberController@main');
+Route::post('/members/{member}/nickUp', 'App\Http\Controllers\MemberController@nickUp');

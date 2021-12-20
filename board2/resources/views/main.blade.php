@@ -3,9 +3,10 @@
     
     <h2> 게시글 목록 </h2>
 
-    <a href="/myPage"><button>마이페이지</button></a>
+    @foreach($members as $member)
+    <a href="/members/{{$member->id}}"><button>마이페이지</button></a>
     <a href="/logout"><button>로그아웃</button></a>
-
+    
     <a href="" style="padding-left:780px;"><button>글쓰기</button></a>
     <br><br>
 
@@ -23,6 +24,8 @@
             </tr>
         </table>
     </div>
+    @endforeach
+    
 
 
 @endsection
