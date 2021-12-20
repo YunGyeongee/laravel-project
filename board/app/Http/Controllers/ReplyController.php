@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Board; 
 use App\Models\Reply;
 
 class ReplyController extends Controller
@@ -22,7 +23,12 @@ class ReplyController extends Controller
         return redirect()->back();
     }
 
-    public function update(Request $request, Reply $reply){
+    public function edit(Request $request, Reply $reply) {
+        return view('replies.edit', compact('reply'));
+    }
+
+    public function update(Request $request, Board $board, Reply $reply){
+
         request()->validate([
             'content' => 'required'
         ]);
@@ -31,7 +37,7 @@ class ReplyController extends Controller
             'content'=>request('content')
         ]);
 
-        return redirect()->back();
+        return redirect('/boards');
 
     }
 

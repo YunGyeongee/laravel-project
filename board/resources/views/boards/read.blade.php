@@ -22,7 +22,7 @@
             <div class="Reply-list">
                 <p>
                     익명 | {{ $item -> content }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                    <a href="/boards/reply/update"><button>수정</button></a>&nbsp;
+                    <a href="/replies/{{$item->id}}/edit"><button>수정</button></a>&nbsp;
                     <a href="/boards/reply/destroy?id={{$item->id}}"><button><input type="hidden" name="r_board_id" value="{{ $board->id }}">삭제</button></a>
                 </p> 
             </div>
