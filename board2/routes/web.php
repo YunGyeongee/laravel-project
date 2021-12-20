@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
+Route::post('/login', 'App\Http\Controllers\MemberController@login');
+Route::get('/logout', 'App\Http\Controllers\MemberController@logout');
+Route::get('/myPage', 'App\Http\Controllers\MemberController@myPage');
+Route::get('/main', 'App\Http\Controllers\MemberController@main');
