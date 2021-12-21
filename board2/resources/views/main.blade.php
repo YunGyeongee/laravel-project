@@ -5,7 +5,6 @@
     @foreach($members as $member)
     <a href="/members/{{$member->id}}/myPage"><button>마이페이지</button></a>
     <a href="/logout"><button>로그아웃</button></a>
-    
     <a href="/boards/create" style="padding-left:780px;"><button>글쓰기</button></a>
     
     <br><br>
@@ -20,15 +19,13 @@
             @foreach($boards as $board)
             <tr align="center">
                 <td>{{ $board->id }}</td>
-                <td>{{ $board->title }}</td>
+                <td><a href="/boards/{{$board->id}}">{{ $board->title }}</a></td>
                 <td>{{ $board->created_at }}</td>
             </tr>
             @endforeach
         </table>
     </div>
+    <br><br>
     @endforeach
-    
-    
-
 
 @endsection
