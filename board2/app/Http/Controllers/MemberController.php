@@ -23,7 +23,8 @@ class MemberController extends Controller
             return redirect()->back();
         } else { // 로그인 성공
             $members = DB::select('select id, name, password, nickname from members where status=0');
-            return view('main', compact('members'));
+            $boards = DB::select('select id, title, content, created_at from boards where status=0');
+            return view('main', compact('members', 'boards'));
         }
     }
 
@@ -32,35 +33,30 @@ class MemberController extends Controller
         return view('index');
     }
 
-    public function myPage(Request $reqeust, Member $member){
+    public function myPage(Request $request, Member $member){
         $member_id = $member->id;
         $member = Member::select('id', 'name', 'password', 'nickname')
             ->where('id', $member_id)
             ->first();
 
-        return view('member.myPage', compact('member'));
+        return view('members.myPage', compact('member'));
     }
 
     public function main(){
         $members = DB::select('select id, name, password, nickname from members where status=0');
-        return view('main', compact('members'));
+        $boards = DB::select('select id, title, content, created_at from boards where status=0');
+        return view('main', compact('members', 'boards'));
     }
 
-    public function nickUp(Reqeust $reqeust, Member $member){
-        $validation = $request -> validate([
-            'id' => 'required',
-            'name' => 'required',
-            'password' => 'required',
+    public function nickUp(Request $request, Member $member){
+        request() -> validate([
             'nickname' => 'required',
         ]);
 
-        Member::create([
-            'id' => $validation['id'],
-            'name' => $validation['name'],
-            'password' => $validation['password'],
-            'nickname' => $validation['nickname']
+        $member->update([
+            'nickname' => request('nickname'),
         ]);
 
-        return redirect()->back();
+        return redirect('/main');
     }
 }
