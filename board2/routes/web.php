@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\BoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,7 @@ Route::post('/register', 'App\Http\Controllers\RegisterController@store');
 
 Route::get('users/myPage', 'App\Http\Controllers\LoginController@myIndex');
 Route::post('users/update', 'App\Http\Controllers\LoginController@myUpdate');
+
+Route::get('boards/create', 'App\Http\Controllers\BoardController@create');
+Route::post('boards/store', 'App\Http\Controllers\BoardController@store');
+Route::get('boards/{{board}}', 'App\Http\Controllers\BoardController@read');

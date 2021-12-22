@@ -4,7 +4,7 @@
     <h2> 게시글 목록 </h2>
     <a href="/users/myPage"><button>마이페이지</button></a>
     <a href="/auth/logout"><button>로그아웃</button></a>
-    <a href="" style="padding-left:780px;"><button>글쓰기</button></a>
+    <a href="/boards/create" style="padding-left:780px;"><button>글쓰기</button></a>
     
     <br><br>
 
@@ -15,11 +15,13 @@
                 <td>글제목</td>
                 <td style="width:25%">작성일</td>
             </tr>
+            @foreach($boards as $board)
             <tr align="center">
-                <td>1</td>
-                <td><a href="">아무제목</a></td>
-                <td>날짜</td>
+                <td>{{ $board->id }}</td>
+                <td><a href="/boards/{{ $board->id }}">{{ $board->title }}</a></td>
+                <td>{{ $board->created_at }}</td>
             </tr>
+            @endforeach
         </table>
     </div>
     <br><br>

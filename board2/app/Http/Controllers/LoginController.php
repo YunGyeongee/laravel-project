@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +14,16 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request){
+    public function login(Request $request, Board $board){
         $validation = $request -> only(['email', 'password']);
-        
+
+        $board_id = $board->id;
+        $boards = Board::select('id', 'title', 'content', 'created_at')
+            ->where('status', 0)
+            ->get();
+
         if(Auth::attempt($validation)){
-            return view('main');
+            return view('main', compact('boards'));
         } else{
             return redirect()->back();
         }
