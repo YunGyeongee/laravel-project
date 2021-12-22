@@ -32,4 +32,4 @@ Route::post('users/update', 'App\Http\Controllers\LoginController@myUpdate');
 
 Route::get('boards/create', 'App\Http\Controllers\BoardController@create');
 Route::post('boards/store', 'App\Http\Controllers\BoardController@store');
-Route::get('boards/{{board}}', 'App\Http\Controllers\BoardController@read');
+Route::get('boards/{board}', 'App\Http\Controllers\BoardController@read');

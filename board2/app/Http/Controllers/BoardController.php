@@ -28,12 +28,13 @@ class BoardController extends Controller
         return view('main');
     }
 
-    public function read(Reqeust $reqeust, Board $board, User $user){
-        $board_id = Board::select('id')->first();
-        $board = Board::select('title', 'content')
-            ->where('id', $board_id)
+    public function read(Request $reqeust, Board $board){
+        $board_id = $board->id;
+        $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
+            ->where([['boards.id', $board_id],['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
-        
+
         return view('boards.read', compact('board'));
     }
 
