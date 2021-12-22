@@ -25,3 +25,6 @@ Route::get('auth/logout', 'App\Http\Controllers\LoginController@logout');
 
 Route::get('/register', 'App\Http\Controllers\RegisterController@index');
 Route::post('/register', 'App\Http\Controllers\RegisterController@store');
+
+Route::get('users/myPage', 'App\Http\Controllers\LoginController@myIndex');
+Route::post('users/update', 'App\Http\Controllers\LoginController@myUpdate');

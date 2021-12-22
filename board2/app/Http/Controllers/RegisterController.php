@@ -18,13 +18,15 @@ class RegisterController extends Controller
         $validation = $request -> validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'nickname' => 'required',
         ]);
 
         User::create([
             'name' => $validation['name'],
             'email' => $validation['email'],
-            'password' => Hash::make($validation['password'])
+            'password' => Hash::make($validation['password']),
+            'nickname' => $validation['nickname']
         ]);
 
         return redirect('/');

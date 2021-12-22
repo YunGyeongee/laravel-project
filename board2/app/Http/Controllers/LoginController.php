@@ -14,7 +14,7 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
-        $validation = $request -> only(['name', 'email', 'password']);
+        $validation = $request -> only(['email', 'password']);
         
         if(Auth::attempt($validation)){
             return view('main');
@@ -27,4 +27,22 @@ class LoginController extends Controller
         Auth::logout();
         return redirect()->route('main');
     }
+
+    public function myIndex(){
+        return view('users.myPage');
+    }
+
+    public function myUpdate(Request $request){
+        $validation = $request -> validate([
+            'nickname' => 'required'
+        ]);
+        
+        $user = User::find(Auth::user()->id);
+        $user -> nickname = $validation['nickname'];
+        $user -> save();
+
+        return redirect()->back();
+
+    }
+
 }

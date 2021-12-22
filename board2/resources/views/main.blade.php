@@ -2,7 +2,7 @@
 @section('content')
     
     <h2> 게시글 목록 </h2>
-    <a href=""><button>마이페이지</button></a>
+    <a href="/users/myPage"><button>마이페이지</button></a>
     <a href="/auth/logout"><button>로그아웃</button></a>
     <a href="" style="padding-left:780px;"><button>글쓰기</button></a>
     
