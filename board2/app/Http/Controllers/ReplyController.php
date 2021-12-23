@@ -46,4 +46,25 @@ class ReplyController extends Controller
         return redirect()->route('boardMain');
     }
 
+    public function destroy(Request $request, Reply $reply) {
+        $reply_id = $request->input('id');
+        $reply = Reply::select('status')
+            ->where('id', $reply_id)
+            ->first();
+
+        if (!$reply) {
+            return '존재하지 않는 댓글 입니다.';
+        } else if($reply->status == 1) {
+            return '이미 삭제된 댓글 입니다.';
+        } else {
+            $result = Reply::where('id', $reply_id)->update(['status' => 1]);
+
+            if ($result > 0) {
+                return redirect('/boards');
+            } else {
+                return '오류가 발생하였습니다.';
+            }
+        }
+    }
+
 }

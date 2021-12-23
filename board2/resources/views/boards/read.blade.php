@@ -52,7 +52,7 @@
                         <td>
                             {{ $reply->content }}
                             <a align="right" href="/replies/{{$reply->id}}/edit"><button>수정</button></a>
-                            <a align="right" href="/replies/{{$reply->id}}/destroy"><button>삭제</button></a>
+                            <a align="right" href="/replies/destroy?id={{$reply->id}}"><button>삭제</button></a>
                         </td>
                         <td>{{ $reply->name }}</td>
                         <td>{{ $reply->created_at }}</td>
