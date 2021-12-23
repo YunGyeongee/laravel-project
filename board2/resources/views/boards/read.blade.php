@@ -22,7 +22,11 @@
         <div align="center">
             <a href="/boards/{{$board->id}}/edit"><button>수정</button></a> 
             <a href="/boards"><button>목록</button></a>
-            <a href=""><button>삭제</button></a>
+            <form style="display:inline;" action="/boards/{{ $board->id }}" method="POST">
+                @csrf
+                <input type="hidden" name="board_id" value="{{$board->id}}">
+                <button>삭제</button>
+            </form>
         </div>
     </div>
 @endsection

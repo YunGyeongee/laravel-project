@@ -36,3 +36,4 @@ Route::post('boards/store', 'App\Http\Controllers\BoardController@store');
 Route::get('boards/{board}', 'App\Http\Controllers\BoardController@read');
 Route::get('boards/{board}/edit', 'App\Http\Controllers\BoardController@edit');
 Route::post('boards/{board}', 'App\Http\Controllers\BoardController@update');
+Route::post('boards/{board}', 'App\Http\Controllers\BoardController@destroy');

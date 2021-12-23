@@ -13,6 +13,7 @@ class BoardController extends Controller
         $board_id = $board->id;
         $boards = Board::select('id', 'title', 'content', 'created_at')
             ->where('status', 0)
+            ->orderBy('id', 'desc')
             ->get();
 
         return view('main', compact('boards'));
@@ -37,7 +38,7 @@ class BoardController extends Controller
         return redirect()->route('boardMain');
     }
 
-    public function read(Request $reqeust, Board $board){
+    public function read(Request $request, Board $board){
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
             ->where([['boards.id', $board_id],['boards.status', 0]])
@@ -47,7 +48,7 @@ class BoardController extends Controller
         return view('boards.read', compact('board'));
     }
 
-    public function edit(Request $reqeust, Board $board){
+    public function edit(Request $request, Board $board){
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
             ->where([['boards.id', $board_id],['boards.status', 0]])
@@ -65,4 +66,24 @@ class BoardController extends Controller
         return redirect('/boards/'.$board->id);
     }
 
+    public function destroy(Request $request, Board $board){
+        $board_id = $request->input('board_id');
+        $board = Board::select('status')
+            ->where('id', $board_id)
+            ->first();
+        
+        if (!$board) {
+            return '존재하지 않는 게시글 입니다.';
+        } else if($board->status == 1) {
+            return '이미 삭제된 게시글 입니다.';
+        } else {
+            $result = Board::where('id', $board_id)->update(['status' => 1]);
+
+            if ($result > 0) {
+                return redirect('/boards');
+            } else {
+                return '오류가 발생하였습니다.';
+            }
+        }
+    }
 }
