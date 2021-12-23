@@ -20,7 +20,8 @@
             </tr>
         </table> <br>
         <div align="center">
-            <a href=""><button>수정</button></a> 
+            <a href="/boards/{{$board->id}}/edit"><button>수정</button></a> 
+            <a href="/boards"><button>목록</button></a>
             <a href=""><button>삭제</button></a>
         </div>
     </div>

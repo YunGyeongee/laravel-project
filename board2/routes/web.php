@@ -30,6 +30,9 @@ Route::post('/register', 'App\Http\Controllers\RegisterController@store');
 Route::get('users/myPage', 'App\Http\Controllers\LoginController@myIndex');
 Route::post('users/update', 'App\Http\Controllers\LoginController@myUpdate');
 
+Route::get('boards', 'App\Http\Controllers\BoardController@index')->name('boardMain');
 Route::get('boards/create', 'App\Http\Controllers\BoardController@create');
 Route::post('boards/store', 'App\Http\Controllers\BoardController@store');
 Route::get('boards/{board}', 'App\Http\Controllers\BoardController@read');
+Route::get('boards/{board}/edit', 'App\Http\Controllers\BoardController@edit');
+Route::post('boards/{board}', 'App\Http\Controllers\BoardController@update');
