@@ -56,13 +56,25 @@ class BoardController extends Controller
         return view('boards.read', compact('board', 'replies'));
     }
 
-    public function edit(Request $request, Board $board){
+    public function edit(Request $request, User $user, Board $board){
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
             ->where([['boards.id', $board_id],['boards.status', 0]])
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
-        return view('boards.edit', compact('board'));
+
+        $user_info = Board::select('users.id')
+            ->where([['boards.id', $board_id], ['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
+
+        $login_user = Auth::user()->id;
+
+        if ($user_info->id != Auth::user()->id) {
+            echo "수정 권한이 없습니다.";
+        } else {
+            return view('boards.edit', compact('board'));
+        }
     }
 
     public function update(Request $request, Board $board){
@@ -74,23 +86,34 @@ class BoardController extends Controller
         return redirect('/boards/'.$board->id);
     }
 
-    public function destroy(Request $request, Board $board){
+    public function destroy(Request $request, User $user, Board $board){
         $board_id = $request->input('board_id');
         $board = Board::select('status')
             ->where('id', $board_id)
             ->first();
         
-        if (!$board) {
-            return '존재하지 않는 게시글 입니다.';
-        } else if($board->status == 1) {
-            return '이미 삭제된 게시글 입니다.';
-        } else {
-            $result = Board::where('id', $board_id)->update(['status' => 1]);
+        $user_info = Board::select('users.id')
+            ->where([['boards.id', $board_id], ['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
 
-            if ($result > 0) {
-                return redirect('/boards');
+        $login_user = Auth::user()->id;
+        
+        if ($user_info->id != Auth::user()->id) {
+            echo "수정 권한이 없습니다.";
+        } else {
+            if (!$board) {
+                return '존재하지 않는 게시글 입니다.';
+            } else if($board->status == 1) {
+                return '이미 삭제된 게시글 입니다.';
             } else {
-                return '오류가 발생하였습니다.';
+                $result = Board::where('id', $board_id)->update(['status' => 1]);
+    
+                if ($result > 0) {
+                    return redirect('/boards');
+                } else {
+                    return '오류가 발생하였습니다.';
+                }
             }
         }
     }
