@@ -40,3 +40,6 @@ Route::post('boards/{board}', 'App\Http\Controllers\BoardController@update');
 Route::post('boards/{board}', 'App\Http\Controllers\BoardController@destroy');
 
 Route::post('replies/store', 'App\Http\Controllers\ReplyController@store');
+Route::get('replies/{reply}/edit', 'App\Http\Controllers\ReplyController@edit');
+Route::post('replies/{reply}', 'App\Http\Controllers\ReplyController@update');
+Route::post('replies/{reply}/destroy', 'App\Http\Controllers\ReplyController@destroy');

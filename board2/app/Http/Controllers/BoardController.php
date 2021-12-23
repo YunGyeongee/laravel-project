@@ -47,9 +47,10 @@ class BoardController extends Controller
             ->first();
         
         // 댓글 조회
-        $replies = Reply::select('users.name', 'replies.content', 'replies.created_at')
+        $replies = Reply::select('replies.id','users.name', 'replies.content', 'replies.created_at')
                 ->where([['board_id', $board_id], ['replies.status', 0]])
                 ->join('users', 'users.id', '=', 'replies.member_id')
+                ->orderBy('replies.id', 'desc')
                 ->get();
 
         return view('boards.read', compact('board', 'replies'));

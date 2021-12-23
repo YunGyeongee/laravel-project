@@ -49,7 +49,11 @@
                     </tr>
                     @foreach($replies as $reply)
                     <tr align="center">
-                        <td>{{ $reply->content }}</td>
+                        <td>
+                            {{ $reply->content }}
+                            <a align="right" href="/replies/{{$reply->id}}/edit"><button>수정</button></a>
+                            <a align="right" href="/replies/{{$reply->id}}/destroy"><button>삭제</button></a>
+                        </td>
                         <td>{{ $reply->name }}</td>
                         <td>{{ $reply->created_at }}</td>
                     </tr>

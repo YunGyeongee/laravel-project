@@ -27,4 +27,23 @@ class ReplyController extends Controller
 
         return redirect()->back();
     }
+
+    public function edit(Request $request, Reply $reply) {
+        $reply_id = $reply->id;
+        $reply = Reply::select('id', 'content')
+                ->where([['id', $reply_id], ['status', 0]])
+                ->first();
+
+        return view('replies.edit', compact('reply'));
+    }
+
+    public function update(Request $request, Reply $reply) {
+        $reply_id = $request->input('reply_id');
+        $reply -> update([
+            'content' => request('content')
+        ]);
+
+        return redirect()->route('boardMain');
+    }
+
 }
