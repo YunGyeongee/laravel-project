@@ -20,6 +20,7 @@ class LoginController extends Controller
         $board_id = $board->id;
         $boards = Board::select('id', 'title', 'content', 'created_at')
             ->where('status', 0)
+            ->orderBy('id', 'desc')
             ->get();
 
         if(Auth::attempt($validation)){

@@ -28,5 +28,36 @@
                 <button>삭제</button>
             </form>
         </div>
+        <br><br>
+
+        <div class="reply">
+            <p>
+                댓글 목록
+                <form action="/replies/store" method="post" align="right">
+                @csrf
+                    <input type="hidden" name="board_id" value="{{ $board->id }}">
+                    <input type="text" name="content" placeholder="댓글을 작성해주세요.">
+                    <input type="submit" valud="등록">
+                </form>
+            </p> 
+            <hr>
+                <table border="1" style="width:800px;">
+                    <tr align="center">
+                        <td style="width:60%; height:40px;">댓글 내용</td>
+                        <td style="width:15%;">작성자</td>
+                        <td style="width:25%;">작성일</td>
+                    </tr>
+                    @foreach($replies as $reply)
+                    <tr align="center">
+                        <td>{{ $reply->content }}</td>
+                        <td>{{ $reply->name }}</td>
+                        <td>{{ $reply->created_at }}</td>
+                    </tr>
+                    @endforeach
+                </table>    
+            <br>
+
+            <br>
+        </div>
     </div>
 @endsection

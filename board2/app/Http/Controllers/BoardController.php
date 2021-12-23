@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Board;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,14 +39,20 @@ class BoardController extends Controller
         return redirect()->route('boardMain');
     }
 
-    public function read(Request $request, Board $board){
+    public function read(Request $request, User $user, Board $board, Reply $reply){
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
             ->where([['boards.id', $board_id],['boards.status', 0]])
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
+        
+        // 댓글 조회
+        $replies = Reply::select('users.name', 'replies.content', 'replies.created_at')
+                ->where([['board_id', $board_id], ['replies.status', 0]])
+                ->join('users', 'users.id', '=', 'replies.member_id')
+                ->get();
 
-        return view('boards.read', compact('board'));
+        return view('boards.read', compact('board', 'replies'));
     }
 
     public function edit(Request $request, Board $board){

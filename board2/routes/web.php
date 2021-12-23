@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\ReplyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,5 @@ Route::get('boards/{board}', 'App\Http\Controllers\BoardController@read');
 Route::get('boards/{board}/edit', 'App\Http\Controllers\BoardController@edit');
 Route::post('boards/{board}', 'App\Http\Controllers\BoardController@update');
 Route::post('boards/{board}', 'App\Http\Controllers\BoardController@destroy');
+
+Route::post('replies/store', 'App\Http\Controllers\ReplyController@store');
