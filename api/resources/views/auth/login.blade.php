@@ -36,7 +36,7 @@
                     },
                     success: function(data) {
                         // alert('통신 성공');
-                        console.log(data);
+                        console.log(email, pwd);
                     }, error(){
                         alert('통신 오류');
                     }

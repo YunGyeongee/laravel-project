@@ -19,15 +19,13 @@ class MemberController extends controller
 
     public function login(Request $request)
     {
-
         $validation = $request -> only(['email', 'password']);
-     
+
         if(Auth::attempt($validation)){
             return view('main');
         } else{
             return redirect()->back();
         }
-
     }
 
     public function logout(){
