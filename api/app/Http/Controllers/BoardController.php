@@ -6,7 +6,7 @@ use App\Http\Requests\StoreBoardRequest;
 use App\Http\Requests\UpdateBoardRequest;
 use App\Models\Board;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller
 {
@@ -15,9 +15,20 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Board $board)
     {
-        //
+        $board_id = $board->id;
+        $boards = Board::select('id', 'title', 'content', 'created_at')
+            ->where('status', 0)
+            ->orderBy('id', 'desc')
+            ->get();
+        
+        if(Auth::check()) {
+            return view('main', compact('boards'));
+        } else {
+            return redirect()->back();
+        }
+        
     }
 
     /**

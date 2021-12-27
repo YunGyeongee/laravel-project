@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\BoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,19 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->get('/members', function (Request $request) {
+    return $request->member();
 });
 
-Route::post('auth/login', 'UserController@login')->name('main');
-Route::post('users/update', 'UserController@myUpdate');
+Route::get('members', 'App\Http\Controllers\MemberController@index');
+Route::get('members/{member}', 'App\Http\Controllers\MemberController@show');
+Route::get('members/login', 'App\Http\Controllers\MemberController@login');
 
-Route::post('/register', 'RegisterController@store');
-
-Route::post('boards/store', 'BoardController@store');
-Route::post('boards/{board}', 'BoardController@update');
-Route::post('boards/{board}', 'BoardController@destroy');
-
-Route::post('replies/store', 'ReplyController@store');
-Route::post('replies/{reply}', 'ReplyController@update');
-
+Route::get('boards', 'App\Http\Controllers\BoardController@index')->name('main');

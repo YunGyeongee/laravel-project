@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Board extends Model
 {
     protected $fillable = [
-        'id', 
-        'member_id', 
-        'title', 
-        'content', 
+        'member_id',
+        'title',
+        'content',
         'status',
     ];
 }

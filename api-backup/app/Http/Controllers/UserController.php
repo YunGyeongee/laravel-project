@@ -17,17 +17,11 @@ class UserController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request, Board $board){
+    public function login(Request $request){
         $validation = $request -> only(['email', 'password']);
 
-        $board_id = $board->id;
-        $boards = Board::select('id', 'title', 'content', 'created_at')
-            ->where('status', 0)
-            ->orderBy('id', 'desc')
-            ->get();
-
         if(Auth::attempt($validation)){
-            return view('main', compact('boards'));
+            return redirect()->route('main'));
         } else{
             return redirect()->back();
         }
@@ -35,7 +29,7 @@ class UserController extends Controller
 
     public function logout(){
         Auth::logout();
-        return redirect()->route('main');
+        return redirect()->route('index');
     }
 
     public function myIndex(){
