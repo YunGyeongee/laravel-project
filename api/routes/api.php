@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BoardController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +23,8 @@ Route::middleware('auth:api')->get('/members', function (Request $request) {
 
 Route::get('members', 'App\Http\Controllers\MemberController@index');
 Route::get('members/{member}', 'App\Http\Controllers\MemberController@show');
-Route::get('members/login', 'App\Http\Controllers\MemberController@login');
+Route::post('members/login', 'App\Http\Controllers\MemberController@login')->name('login');
+Route::get('members/create', 'App\Http\Controllers\MemberController@create');
+Route::post('members/store', 'App\Http\Controllers\MemberController@store');
 
 Route::get('boards', 'App\Http\Controllers\BoardController@index')->name('main');
