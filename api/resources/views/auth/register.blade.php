@@ -4,19 +4,17 @@
         <h2> 회 원 가 입 </h2>
         <form>
             @csrf
-            <p><label for="name">이름 : </label><input id="name" type="text" name="name"></p>
-            <p><label for="eamil">이메일 : </label><input id="email" type="email" name="email"></p>
-            <p><label for="password">비밀번호 : </label><input id="password" type="password" name="password"></p>
-            <p><label for="text">닉네임 : </label><input id="nickname" type="text" name="nickname"></p>
-            <button id="registerBtn">회원가입</button>
+            <label for="name">이름 : </label><input id="name" type="text" name="name">
+            <label for="eamil">이메일 : </label><input id="email" type="email" name="email">
+            <label for="password">비밀번호 : </label><input id="password" type="password" name="password">
+            <button id="joinBtn">회원가입</button>
         </form>
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
-            $('#registerBtn').click(function(e){
-            e.preventDefault();
+            $('#joinBtn').click(function(e){
 
             $.ajaxSetup({
                 headers: {
@@ -24,18 +22,23 @@
                 }
             });
 
+            e.preventDefault();
+            let name = $("input[name='name']").val();
+            let email = $("input[name='email']").val();
+            let password = $("input[name='password']").val();
+
             $.ajax({
-                url: "/members/store",
+                url: "/api/members/store",
                 method: 'post',
                 data: {
-                    name: $('#name').val(),
-                    eamil: $('#eamil').val(),
-                    password: $('#password').val()
+                    name: name,
+                    email: email,
+                    password: password
                 },
                 success: function(){
-                    console.log("통신성공");
+                    console.log("통신 성공");
                 }, error() {
-                    console.log("통신실패");
+                    console.log("통신 실패");
                 }
                 });
             });

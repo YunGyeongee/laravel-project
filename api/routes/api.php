@@ -25,6 +25,12 @@ Route::get('members', 'App\Http\Controllers\MemberController@index');
 Route::get('members/{member}', 'App\Http\Controllers\MemberController@show');
 Route::post('members/login', 'App\Http\Controllers\MemberController@login')->name('login');
 Route::get('members/create', 'App\Http\Controllers\MemberController@create');
-Route::post('members/store', 'App\Http\Controllers\MemberController@store');
+Route::post('members/store', 'App\Http\Controllers\MemberController@store')->name('join');
 
 Route::get('boards', 'App\Http\Controllers\BoardController@index')->name('main');
+Route::get('boards/create', 'App\Http\Controllers\BoardController@create');
+Route::post('boards/store', 'App\Http\Controllers\BoardController@store');
+Route::get('boards/{board}', 'App\Http\Controllers\BoardController@show');
+Route::get('boards/{board}/edit', 'App\Http\Controllers\BoardController@edit');
+Route::post('boards/{board}', 'App\Http\Controllers\BoardController@update');
+Route::get('boards', 'App\Http\Controllers\BoardController@destroy');

@@ -15,7 +15,7 @@
                 <td>글제목</td>
                 <td style="width:25%">작성일</td>
             </tr>
-            @($boards as $board)
+            @foreach($boards as $board)
             <tr align="center">
                 <td>{{ $board->id }}</td>
                 <td><a href="">{{ $board->title }}</a></td>

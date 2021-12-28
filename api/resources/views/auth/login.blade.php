@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h1> 로그인 </h1>
+    <h1> 로 그 인 </h1>
 
     <div>
         <form>
@@ -28,15 +28,17 @@
                 let pwd = $("input[name='password']").val();
 
                 $.ajax({
-                    url: "{{url('api/members/login')}}",
+                    url: "/api/members/login",
                     type: 'POST',
                     data: {
                         email: email,
                         password: pwd
                     },
                     success: function(data) {
-                        // alert('통신 성공');
-                        console.log(email, pwd);
+                        if(data != null) {
+                            console.log(data);
+                            window.location.replace('/api/boards');
+                        }
                     }, error(){
                         alert('통신 오류');
                     }

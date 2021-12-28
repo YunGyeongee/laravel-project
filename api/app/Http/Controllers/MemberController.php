@@ -19,12 +19,14 @@ class MemberController extends controller
 
     public function login(Request $request)
     {
-        $validation = $request -> only(['email', 'password']);
+        $email = $request->email;
+        $pwd = $request->password;
+        $credentials = ['email' => $email, 'password' => $pwd];
 
-        if(Auth::attempt($validation)){
-            return view('main');
-        } else{
+        if(! auth()->attempt($credentials)) { // 로그인 실패
             return redirect()->back();
+        } else { // 로그인 성공
+            return view('main');
         }
     }
 
