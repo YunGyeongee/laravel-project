@@ -42,14 +42,13 @@ class AuthController extends Controller
             'password' => bcrypt($data['password'])
         ]);
 
+        /*
         // passport client 가져오기
         $client = Client::where('password_client', 1)->first();
 
         $http = new \GuzzleHttp\Client();
 
         $getTokenGenerateRoute = route('passport.token');
-
-//        dd($getTokenGenerateRoute);
 
         $response = $http->post($getTokenGenerateRoute, [
             'form_params' => [
@@ -64,10 +63,13 @@ class AuthController extends Controller
 
         $tokenResponse = json_decode((string) $response->getBody(), true);
 
-        return response()->json([
-           'user' => $user,
-           'token' => $tokenResponse
-        ], Response::HTTP_CREATED);
+//        return response()->json([
+//           'user' => $user,
+//           'token' => $tokenResponse
+//        ], Response::HTTP_CREATED);
+        */
+
+        return redirect()->route('/user.login');
 
     }
 

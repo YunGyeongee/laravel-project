@@ -25,7 +25,9 @@
             e.preventDefault();
             let name = $("input[name='name']").val();
             let email = $("input[name='email']").val();
-            let password = $("input[name='password']").val();
+            let pwd = $("input[name='password']").val();
+
+            // console.log(name,email,pwd);
 
             $.ajax({
                 url: "/api/register",
@@ -33,12 +35,12 @@
                 data: {
                     name: name,
                     email: email,
-                    password: password
+                    password: pwd
                 },
                 success: function(){
                     alert('통신 성공');
-                }, error() {
-                    alert("통신 실패");
+                }, error: function (request,status,error) {
+                    console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }
                 });
             });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\BoardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,4 @@ Route::get('/', function () {
 
 Route::get('/members/register', [AuthController::class, 'registerIndex']);
 Route::get('/members', [AuthController::class, 'loginIndex']);
+Route::get('/boards', [BoardController::class, 'index']);
