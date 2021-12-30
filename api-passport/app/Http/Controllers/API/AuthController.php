@@ -69,7 +69,7 @@ class AuthController extends Controller
 //        ], Response::HTTP_CREATED);
         */
 
-        return redirect()->route('/user.login');
+        return view('/auth.login');
 
     }
 
@@ -95,6 +95,7 @@ class AuthController extends Controller
 
         $data = request()->only('email', 'password');
 
+        /*
         // passport client 가져오기
         $client = Client::where('password_client', 1)->first();
 
@@ -119,5 +120,9 @@ class AuthController extends Controller
             'user' => Auth::user(),
             'token' => $tokenResponse
         ], Response::HTTP_CREATED);
+        */
+
+        return view('main');
+
     }
 }

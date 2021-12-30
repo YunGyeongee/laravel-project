@@ -30,7 +30,7 @@
             // console.log(name,email,pwd);
 
             $.ajax({
-                url: "/api/register",
+                url: "/api/user/register",
                 method: 'post',
                 data: {
                     name: name,
@@ -38,7 +38,8 @@
                     password: pwd
                 },
                 success: function(){
-                    alert('통신 성공');
+                    // alert('통신 성공');
+                    window.location.replace('/users');
                 }, error: function (request,status,error) {
                     console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }

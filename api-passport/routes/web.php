@@ -19,6 +19,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/members/register', [AuthController::class, 'registerIndex']);
-Route::get('/members', [AuthController::class, 'loginIndex']);
+Route::get('/users/register', [AuthController::class, 'registerIndex']);
+Route::get('/users', [AuthController::class, 'loginIndex']);
 Route::get('/boards', [BoardController::class, 'index']);
