@@ -2,9 +2,9 @@
 @section('content')
 
     <h2> 게시글 목록 </h2>
-    <a href=""><button>마이페이지</button></a>
+    <a href="/myPage"><button>마이페이지</button></a>
     <button id="logoutBtn">로그아웃</button>
-    <a href="" style="padding-left:780px;"><button>글쓰기</button></a>
+    <a href="/boards/create" style="padding-left:780px;"><button>글쓰기</button></a>
 
     <br><br>
 
@@ -18,7 +18,7 @@
 {{--            @foreach($boards as $board)--}}
             <tr align="center">
                 <td>12</td>
-                <td><a href="">그냥 제목</a></td>
+                <td><a href="">ㅈㅁ</a></td>
                 <td>2021-12-30</td>
             </tr>
 {{--            @endforeach--}}

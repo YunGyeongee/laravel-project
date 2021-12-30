@@ -18,4 +18,9 @@ class BoardController extends Controller
 
         return view('main', compact('boards'));
     }
+
+    public function create()
+    {
+        return view('boards.create');
+    }
 }

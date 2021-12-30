@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BoardController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +23,8 @@ Route::get('/', function () {
 
 Route::get('/users/register', [AuthController::class, 'registerIndex']);
 Route::get('/users', [AuthController::class, 'loginIndex']);
+
+Route::get("/myPage", [UserController::class, 'index']);
+
 Route::get('/boards', [BoardController::class, 'index'])->name('main');
+Route::get('/boards/create', [BoardController::class, 'create']);

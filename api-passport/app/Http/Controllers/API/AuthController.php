@@ -67,11 +67,10 @@ class AuthController extends Controller
             return redirect()->back();
         }
 
-
     }
 
     // 로그아웃
-    public function logout(Request $request)
+    public function logout()
     {
         if(Auth::check()) {
             $token = Auth::user()->token();
