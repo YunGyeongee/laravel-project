@@ -3,7 +3,7 @@
 
     <h2> 게시글 목록 </h2>
     <a href=""><button>마이페이지</button></a>
-    <a href=""><button>로그아웃</button></a>
+    <button id="logoutBtn">로그아웃</button>
     <a href="" style="padding-left:780px;"><button>글쓰기</button></a>
 
     <br><br>
@@ -25,5 +25,27 @@
         </table>
     </div>
     <br><br>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#logoutBtn').click(function(e){
+
+                e.preventDefault();
+                $.ajax({
+                    url:'/api/user/logout',
+                    type: 'post',
+                    success:function(){
+                        window.location.replace('/');
+                    }, error () {
+                        alert('ajax 통신 실패');
+                    }
+                });
+            })
+        })
+
+
+
+    </script>
 
 @endsection

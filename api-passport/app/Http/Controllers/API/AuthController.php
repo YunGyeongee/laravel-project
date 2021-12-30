@@ -69,4 +69,16 @@ class AuthController extends Controller
 
 
     }
+
+    // 로그아웃
+    public function logout(Request $request)
+    {
+        if(Auth::check()) {
+            $token = Auth::user()->token();
+            $token->revoke();
+            return view('index');
+        } else {
+            return '정상적으로 로그아웃 되지 않았습니다.';
+        }
+    }
 }
