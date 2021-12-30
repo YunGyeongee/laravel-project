@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Board;
 use Illuminate\Http\Request;
 
 class BoardController extends Controller
@@ -11,7 +12,7 @@ class BoardController extends Controller
     public function index(Board $board)
     {
         $boards = Board::select('id', 'title', 'content', 'created_at')
-            ->where('status', 1)
+            ->where('status', 0)
             ->orderBy('id', 'desc')
             ->get();
 

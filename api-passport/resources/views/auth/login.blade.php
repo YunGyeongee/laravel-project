@@ -28,16 +28,17 @@
                 let pwd = $("input[name='password']").val();
 
                 $.ajax({
-                    url: "/api/login",
+                    url: "/api/user/login",
                     type: 'POST',
                     data: {
                         email: email,
                         password: pwd
                     },
                     success: function() {
-                        alert('통신 성공');
-                    }, error(){
-                        alert('통신 오류');
+                        // alert('통신 성공');
+                        window.location.replace('/boards');
+                    }, error(request,status,error){
+                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     }
                 });
             });

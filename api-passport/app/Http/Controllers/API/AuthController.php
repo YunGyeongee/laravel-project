@@ -42,34 +42,7 @@ class AuthController extends Controller
             'password' => bcrypt($data['password'])
         ]);
 
-        /*
-        // passport client 가져오기
-        $client = Client::where('password_client', 1)->first();
-
-        $http = new \GuzzleHttp\Client();
-
-        $getTokenGenerateRoute = route('passport.token');
-
-        $response = $http->post($getTokenGenerateRoute, [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => $client->id,
-                'client_secret' => $client->secret,
-                'username' => $data['email'],
-                'password' => $data['password'],
-                'scope' => '',
-            ]
-        ]);
-
-        $tokenResponse = json_decode((string) $response->getBody(), true);
-
-//        return response()->json([
-//           'user' => $user,
-//           'token' => $tokenResponse
-//        ], Response::HTTP_CREATED);
-        */
-
-        return view('/auth.login');
+        return view('auth.login');
 
     }
 
@@ -82,47 +55,18 @@ class AuthController extends Controller
     // 로그인
     public function login(Request $request)
     {
-        $loginCredential = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6'
-        ]);
+        $loginUser = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
 
-        if(!Auth::attempt($loginCredential)) {
-            return response()->json([
-                'message' => '유효하지 않은 로그인 정보입니다.'
-            ], Response::HTTP_UNAUTHORIZED);
+        if(auth()->attempt($loginUser)) { // 로그인 성공
+//            $userLoginToken = auth()->user()->createToken('PassportExample@Section.io')->accessToken;
+            return view('main');
+        } else { // 로그인 실패
+            return redirect()->back();
         }
 
-        $data = request()->only('email', 'password');
-
-        /*
-        // passport client 가져오기
-        $client = Client::where('password_client', 1)->first();
-
-        $http = new \GuzzleHttp\Client();
-
-        $getTokenGenerateRoute = route('passport.token');
-
-        $response = $http->post($getTokenGenerateRoute, [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => $client->id,
-                'client_secret' => $client->secret,
-                'username' => $data['email'],
-                'password' => $data['password'],
-                'scope' => '',
-            ]
-        ]);
-
-        $tokenResponse = json_decode((string) $response->getBody(), true);
-
-        return response()->json([
-            'user' => Auth::user(),
-            'token' => $tokenResponse
-        ], Response::HTTP_CREATED);
-        */
-
-        return view('main');
 
     }
 }
