@@ -2,7 +2,7 @@
 @section('content')
 
     <h2> 게시글 목록 </h2>
-    <a href="/myPage"><button>마이페이지</button></a>
+    <a href="/api/user/myPage"><button>마이페이지</button></a>
     <button id="logoutBtn">로그아웃</button>
     <a href="/boards/create" style="padding-left:780px;"><button>글쓰기</button></a>
 
@@ -15,13 +15,13 @@
                 <td>글제목</td>
                 <td style="width:25%">작성일</td>
             </tr>
-{{--            @foreach($boards as $board)--}}
+            @foreach($boards as $board)
             <tr align="center">
-                <td>12</td>
-                <td><a href="">ㅈㅁ</a></td>
-                <td>2021-12-30</td>
+                <td>{{ $board->id }}</td>
+                <td><a href="">{{ $board->title }}</a></td>
+                <td>{{ $board->created_at }}</td>
             </tr>
-{{--            @endforeach--}}
+            @endforeach
         </table>
     </div>
     <br><br>

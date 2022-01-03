@@ -30,7 +30,12 @@
                 $.ajax({
                     url: "/api/user/login",
                     type: 'POST',
+                    beforeSend : function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Authorization", "Bearer {{ session('api_token') }}");
+                    },
                     data: {
+                        _token : "{{ csrf_token() }}",
                         email: email,
                         password: pwd
                     },
