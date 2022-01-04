@@ -24,7 +24,5 @@ Route::get('/', function () {
 Route::get('/users/register', [AuthController::class, 'registerIndex']);
 Route::get('/users', [AuthController::class, 'loginIndex']);
 
-
-
 Route::get('/boards', [BoardController::class, 'index'])->name('main');
-Route::get('/boards/create', [BoardController::class, 'create']);
+

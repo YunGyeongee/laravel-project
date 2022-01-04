@@ -30,5 +30,6 @@ Route::prefix('/user')->group(function(){
     Route::group(['middleware' => ['auth:api']],function(){
 //        Route::get('/info', [UserController::class, 'currentUserInfo'])->name('user.info');
         Route::get("/myPage", [UserController::class, 'index']);
+        Route::get('/boards/create', [BoardController::class, 'create']);
     });
 });
