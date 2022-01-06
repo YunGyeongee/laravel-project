@@ -42,6 +42,11 @@
                     },
                     success: function(data) {
                         console.log(data);
+
+                        const sendData = data.data.token.access_token; // access_token 저장
+                        localStorage.setItem('token', sendData);
+                        localStorage.getItem('token');
+
                         // window.location.replace('/boards');
                     }, error(){
                         alert("로그인 실패");
