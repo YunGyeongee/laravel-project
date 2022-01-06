@@ -17,37 +17,27 @@
         $(document).ready(function(){
             $("#loginBtn").click(function(e){
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
                 e.preventDefault();
                 const email = $("input[name='email']").val();
                 const pwd = $("input[name='password']").val();
 
                 $.ajax({
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     url: "/api/user/login",
                     type: 'POST',
                     dataType : 'json',
-                    beforeSend : function (xhr) {
-                        xhr.setRequestHeader("Accept", "application/json");
-                        xhr.setRequestHeader("Authorization", "Bearer {{ session('api_token') }}");
-                    },
                     data: {
                         _token : "{{ csrf_token() }}",
                         email: email,
                         password: pwd
                     },
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
 
                         const sendData = data.data.token.access_token; // access_token 저장
-                        localStorage.setItem('token', sendData);
-                        localStorage.getItem('token');
+                        localStorage.setItem('token', sendData); // localStorage에 토큰값 저장
 
-                        // window.location.replace('/boards');
+                        window.location.replace('/boards');
                     }, error(){
                         alert("로그인 실패");
                     }

@@ -18,10 +18,25 @@ class UserController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // 마이페이지
+    /**
+     * 마이페이지
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
-        return view('users.myPage');
+        $user = Auth()->user();
+//        $response = response()->json(['success' => true, 'alert' => '', 'data' => $user], 200);
+//        return view('users.myPage', compact('response'));
+
+        $data = [];
+        $data['user'] = $user;
+        $data['html'] = view('users.ajax.myPage', $data)->render();
+
+        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+    }
+
+    public function myPage() {
+        return view('users.myPage2');
     }
 
     // 정보(닉네임) 수정

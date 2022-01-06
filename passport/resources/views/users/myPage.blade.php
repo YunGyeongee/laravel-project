@@ -7,36 +7,32 @@
     <br><br>
 
     <div class="board-table">
-        <table border="1" style="width:600px;">
-            <tr align="center">
-                <td style="width:20%; height:40px;">회원번호</td>
-                <td><input type="text" name="id" value="{{Auth::user()->id}}" readonly></td>
-            </tr>
-            <tr align="center">
-                <td style="height:40px;">이름</td>
-                <td><input type="text" name="name" value="{{Auth::user()->name}}" readonly></td>
-            </tr>
-            <tr align="center">
-                <td style="height:40px;">이메일</td>
-                <td><input type="text" name="email" value="{{Auth::user()->email}}" readonly></td>
-            </tr>
-            <tr align="center">
-                <td style="height:40px;">비밀번호</td>
-                <td><input type="password" name="password" value="{{Auth::user()->password}}" readonly></td>
-            </tr>
-            <tr align="center">
-                <form method="POST" action="/users/update">
-                    @csrf
-                    <td style="height:40px;">닉네임</td>
-                    <td>
-                        <input type="text" name="nickname" value="{{Auth::user()->nickname}}">
-                        <input type="submit" value="변경">
-                    </td>
-                </form>
-            </tr>
-        </table>
     </div>
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const token = localStorage.getItem('token');
 
+            $.ajax({
+                url: '/api/user/myPage',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+
+                success: function (data) {
+                    $(".board-table").html(data.data.html);
+                }, error: function (request, status, error) {
+                    if (status === 401) {
+
+                    }
+                    alert('마이페이지 조회 실패');
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+
+                }
+            });
+        });
+    </script>
 
 @endsection

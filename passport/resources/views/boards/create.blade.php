@@ -12,6 +12,10 @@
                     <td><input type="text" name="title"></td>
                 </tr>
                 <tr align="center">
+                    <td style="height:40px;">작성자</td>
+                    <td>ㅈㅅㅈ</td>
+                </tr>
+                <tr align="center">
                     <td style="height:200px;">내용</td>
                     <td><textarea name="content" id="content" cols="50" rows="30"></textarea></td>
                 </tr>

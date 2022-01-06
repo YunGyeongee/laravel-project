@@ -30,7 +30,7 @@ class AuthController extends Controller
         ]);
 
         // 필수 입력값들에 대한 유효성 검사
-        if($valid->fails()) {
+        if ($valid->fails()) {
             return response()->json([
                 'error' => $valid->errors()->all()
             ], Response::HTTP_BAD_REQUEST );
@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         $http = new \GuzzleHttp\Client();
 
-        $response = $http -> post('http://192.168.2.10:8000/oauth/token', [
+        $response = $http->post('http://192.168.2.10:8000/oauth/token', [
            'form_params' => [
                'grant_type' => 'password',
                'client_id' => $client->id,
@@ -65,6 +65,7 @@ class AuthController extends Controller
         $result_data = [];
         $result_data['user'] = $user;
         $result_data['token'] = $tokenResponse;
+
         return response()->json(['success' => true, 'alert' => '', 'data' => $result_data], 200);
 
     }
@@ -134,7 +135,9 @@ class AuthController extends Controller
         // passport client 가져오기
         $client = OClient::where('password_client', 1)->first();
 
-        $response = Http::asForm() -> post('http://192.168.2.10:8000/oauth/token', [
+        $url = env('APP_URL');
+
+        $response = Http::asForm() -> post($url . '/oauth/token', [
                 'grant_type' => 'refresh_token',
                 'client_id' => $client->id,
                 'client_secret' => $client->secret,
