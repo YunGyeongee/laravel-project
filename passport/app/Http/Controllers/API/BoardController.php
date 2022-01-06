@@ -13,6 +13,7 @@ class BoardController extends Controller
     // 메인 페이지
     public function index()
     {
+
         $boards = Board::select('id', 'title', 'content', 'created_at')
             ->where('status', 0)
             ->orderBy('id', 'desc')

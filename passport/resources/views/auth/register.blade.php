@@ -23,11 +23,10 @@
                 });
 
                 e.preventDefault();
-                let name = $("input[name='name']").val();
-                let email = $("input[name='email']").val();
-                let pwd = $("input[name='password']").val();
+                const name = $("input[name='name']").val();
+                const email = $("input[name='email']").val();
+                const pwd = $("input[name='password']").val();
 
-                // console.log(name,email,pwd);
 
                 $.ajax({
                     url: "/api/user/register",
@@ -35,13 +34,12 @@
                     data: {
                         name: name,
                         email: email,
-                        password: pwd
+                        password: pwd,
                     },
                     success: function(data){
                         console.log(data);
-                        alert('통신 성공');
 
-                        //window.location.replace('/users');
+                        window.location.replace('/users');
                     }, error: function (request,status,error) {
                         console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     }

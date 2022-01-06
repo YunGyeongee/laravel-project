@@ -24,12 +24,13 @@
                 });
 
                 e.preventDefault();
-                let email = $("input[name='email']").val();
-                let pwd = $("input[name='password']").val();
+                const email = $("input[name='email']").val();
+                const pwd = $("input[name='password']").val();
 
                 $.ajax({
                     url: "/api/user/login",
                     type: 'POST',
+                    dataType : 'json',
                     beforeSend : function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");
                         xhr.setRequestHeader("Authorization", "Bearer {{ session('api_token') }}");
@@ -39,11 +40,11 @@
                         email: email,
                         password: pwd
                     },
-                    success: function() {
-                        // console.log(email, pwd);
-                        window.location.replace('/boards');
-                    }, error(request,status,error){
-                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    success: function(data) {
+                        console.log(data);
+                        // window.location.replace('/boards');
+                    }, error(){
+                        alert("로그인 실패");
                     }
                 });
             });

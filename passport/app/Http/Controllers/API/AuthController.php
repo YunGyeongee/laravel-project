@@ -49,9 +49,7 @@ class AuthController extends Controller
 
         $http = new \GuzzleHttp\Client();
 
-        $getTokenGenerateRoute = route('passport.token');
-
-        $response = $http -> post('http://192.168.2.10:8017/oauth/token', [
+        $response = $http -> post('http://192.168.2.10:8000/oauth/token', [
            'form_params' => [
                'grant_type' => 'password',
                'client_id' => $client->id,
@@ -81,52 +79,39 @@ class AuthController extends Controller
     public function login(Request $request)
     {
 
-//        $loginCredential = $request->validate([
-//            'email' => 'required',
-//            'password' => 'required'
-//        ]);
-//
-//        if (!Auth::attempt($loginCredential)) {
-//            return '로그인 정보가 없습니다.';
-//        }
-//
-//        $data = request()->only('email', 'password');
-//
-//        // passport client 가져오기
-//        $client = Client::where('password_client', 1)->first();
-//
-//        $http = new \GuzzleHttp\Client();
-//
-//        $getTokenGenerateRoute = route('passport.token');
-//
-//        $response = $http -> post($getTokenGenerateRoute, [
-//            'form_params' => [
-//                'grant_type' => 'password',
-//                'client_id' => $client->id,
-//                'client_secret' => $client->secret,
-//                'username' => $data['email'],
-//                'password' => $data['password'],
-//                'scope' => '',
-//            ]
-//        ]);
-//
-//        $tokenResponse = json_decode((string) $response->getBody(), true);
-//
-//        return response()->json([
-//            'user' => Auth::user(),
-//            'token' => $tokenResponse
-//        ], Response::HTTP_CREATED);
+        $loginCredential = $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
 
-        $loginUser = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-
-        if(auth()->attempt($loginUser)) { // 로그인 성공
-            return view('main');
-        } else { // 로그인 실패
-            return redirect()->back();
+        if (!Auth::attempt($loginCredential)) {
+            return '로그인 정보가 없습니다.';
         }
+
+        $data = request()->only('email', 'password');
+
+        // passport client 가져오기
+        $client = OClient::where('password_client', 1)->first();
+
+        $http = new \GuzzleHttp\Client();
+
+        $response = $http -> post('http://192.168.2.10:8000/oauth/token', [
+           'form_params' => [
+               'grant_type' => 'password',
+               'client_id' => $client->id,
+               'client_secret' => $client->secret,
+               'username' => $data['email'],
+               'password' => $data['password'],
+               'scope' => '',
+           ]
+        ]);
+
+        $tokenResponse = json_decode((string) $response->getBody(), true);
+
+        $result_data = [];
+        $result_data['token'] = $tokenResponse;
+        return response()->json(['success' => true, 'alert' => '', 'data' => $result_data], 200);
+
 
     }
 
@@ -147,11 +132,9 @@ class AuthController extends Controller
         $data = request()->only('refresh_token');
 
         // passport client 가져오기
-        $client = Client::where('password_client', 1)->first();
+        $client = OClient::where('password_client', 1)->first();
 
-        $getTokenGenerateRoute = route('passport.token');
-
-        $response = Http::asForm() -> post($getTokenGenerateRoute, [
+        $response = Http::asForm() -> post('http://192.168.2.10:8000/oauth/token', [
                 'grant_type' => 'refresh_token',
                 'client_id' => $client->id,
                 'client_secret' => $client->secret,
