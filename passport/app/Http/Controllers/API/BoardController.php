@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Client as OClient;
 
 class BoardController extends Controller
 {
@@ -53,16 +54,15 @@ class BoardController extends Controller
         $user = Auth::user();
         $target = $user->id;
 
+        $data = request()->only('title', 'content');
+
         $board = Board::create([
             'member_id' => $target,
-            'title' => $valid['title'],
-            'content' => $valid['content']
+            'title' => $data['title'],
+            'content' => $data['content']
         ]);
 
-        $data = [];
-        $data['data'] = $board;
-
-        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+        return response()->json(['success' => true, 'alert' => '', 'data' => $board], 200);
 
     }
 

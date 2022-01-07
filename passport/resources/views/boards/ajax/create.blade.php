@@ -22,7 +22,10 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $('#createBtn').click(function(){
+
        const token = localStorage.getItem('token');
+       const title = $("input[name='title']").val();
+       const content = $("textarea[name='content']").val();
 
        $.ajax({
            url: '/api/user/boards/store',
@@ -32,10 +35,16 @@
                xhr.setRequestHeader("Accept", "application/json");
                xhr.setRequestHeader("Authorization", "Bearer " + token);
            },
+           data: {
+               title: title,
+               content : content
+           },
            success: function (data) {
-               alert(data);
+               // alert('게시글 작성 성공');
+               location.href = '/boards';
            }, error(status, request, error) {
-               alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+               alert('게시글 작성 실패');
+               console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
            }
        });
     });
