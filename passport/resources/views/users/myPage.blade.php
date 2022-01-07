@@ -25,7 +25,8 @@
                     $(".board-table").html(data.data.html);
                 }, error: function (request, status, error) {
                     if (status === 401) {
-
+                        alert('다시 로그인 해주세요.');
+                        location.href = '/users';
                     }
                     alert('마이페이지 조회 실패');
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);

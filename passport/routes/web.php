@@ -19,21 +19,6 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    $boards = Board::select('id', 'title', 'content', 'created_at')
-        ->where('status', 0)
-        ->orderBy('id', 'desc')
-        ->get();
-
-    dd(compact('boards'));
-
-    print_r($boards);
-    echo "<br><br>";
-    print_r(compact('boards'));
-    die;
-
-    return view('main', compact('boards'));
-
-    die;
     return view('index');
 });
 
@@ -41,6 +26,5 @@ Route::get('/users/register', [AuthController::class, 'registerIndex']);
 Route::get('/users', [AuthController::class, 'loginIndex']);
 
 Route::get('/boards', [BoardController::class, 'index'])->name('main');
-Route::get('/myPage2', [UserController::class, 'myPage']);
 
 Route::get('/users/mypage', [\App\Http\Controllers\UserController::class, 'index']);

@@ -45,30 +45,25 @@
             })
 
             $('#myPageBtn').click(function (e) {
-                // location.href="/myPage2"
 
                 const token = localStorage.getItem('token');
 
                 $.ajax({
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     url: '/api/user/myPage',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
                     },
-
                     success: function (data) {
                         console.log(data.data);
                     }, error: function (request,status,error) {
                         if (status === 401) {
-
+                            location.href = '/users';
                         }
                         alert('마이페이지 조회 실패');
                         console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
                     }
                 });
-
             });
         });
 

@@ -12,24 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    // 회원가입 폼
-    public function registerIndex()
-    {
-        return view('auth/register');
-    }
-
     // 회원가입
     public function register(Request $request)
     {
-
-
         $valid = validator($request->only('email', 'name', 'password'),[
             'email' => 'required|string|email|max:255|unique:users',
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6'
         ]);
 
-        // 필수 입력값들에 대한 유효성 검사
         if ($valid->fails()) {
             return response()->json([
                 'error' => $valid->errors()->all()
@@ -38,18 +29,20 @@ class AuthController extends Controller
 
         $data = request()->only('email', 'name', 'password');
 
-        // 사용자 생성
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
+            'status' => 0
         ]);
 
         $client = OClient::where('password_client', 1)->first();
 
         $http = new \GuzzleHttp\Client();
 
-        $response = $http->post('http://192.168.2.10:8000/oauth/token', [
+        $url = env('APP_URL');
+
+        $response = $http->post($url . '/oauth/token', [
            'form_params' => [
                'grant_type' => 'password',
                'client_id' => $client->id,
@@ -68,12 +61,6 @@ class AuthController extends Controller
 
         return response()->json(['success' => true, 'alert' => '', 'data' => $result_data], 200);
 
-    }
-
-    // 로그인 폼
-    public function loginIndex()
-    {
-        return view('auth.login');
     }
 
     // 로그인
@@ -96,7 +83,9 @@ class AuthController extends Controller
 
         $http = new \GuzzleHttp\Client();
 
-        $response = $http -> post('http://192.168.2.10:8000/oauth/token', [
+        $url = env('APP_URL');
+
+        $response = $http->post($url . '/oauth/token', [
            'form_params' => [
                'grant_type' => 'password',
                'client_id' => $client->id,
@@ -111,9 +100,8 @@ class AuthController extends Controller
 
         $result_data = [];
         $result_data['token'] = $tokenResponse;
+
         return response()->json(['success' => true, 'alert' => '', 'data' => $result_data], 200);
-
-
     }
 
     // 리프레시 토큰 받아서 액세스 토큰 새로 고침
@@ -123,8 +111,7 @@ class AuthController extends Controller
             'refresh_token' => 'required',
         ]);
 
-        // 필수 입력값들에 대한 유효성 검사
-        if($userRequest->fails()) {
+        if ($userRequest->fails()) {
             return response()->json([
                 'error' => $userRequest->errors()->all()
             ], Response::HTTP_BAD_REQUEST );
@@ -132,7 +119,6 @@ class AuthController extends Controller
 
         $data = request()->only('refresh_token');
 
-        // passport client 가져오기
         $client = OClient::where('password_client', 1)->first();
 
         $url = env('APP_URL');
@@ -158,13 +144,12 @@ class AuthController extends Controller
                 'token' => $tokenResponse
             ], Response::HTTP_OK);
         }
-
     }
 
     // 로그아웃
     public function logout()
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $token = Auth::user()->token();
             $token->revoke();
             return view('index');

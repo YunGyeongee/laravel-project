@@ -10,7 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-    // 현재 로그인 정보
+    /**
+     * 현재 로그인 정보
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function currentUserInfo()
     {
         return response()->json([
@@ -25,8 +28,6 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth()->user();
-//        $response = response()->json(['success' => true, 'alert' => '', 'data' => $user], 200);
-//        return view('users.myPage', compact('response'));
 
         $data = [];
         $data['user'] = $user;
@@ -35,21 +36,21 @@ class UserController extends Controller
         return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }
 
-    public function myPage() {
-        return view('users.myPage2');
-    }
-
-    // 정보(닉네임) 수정
+    /**
+     * 정보(닉네임) 수정
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request)
     {
-        $validation = $request-> validate([
+        $validation = $request->validate([
             'nickname' => 'required'
         ]);
 
-        $user = User::find(Auth::user()->id);
+        $user = Auth::user()->id;
         $user -> nickname = $validation['nickname'];
         $user -> save();
 
-        return redirect()->back();
+        return response()->json(['success' => true, 'alert' => '', 'data' => $user], 200);
     }
 }
