@@ -27,4 +27,5 @@ Route::get('/boards', [BoardController::class, 'index'])->name('main');
 Route::get('/boards/create', [BoardController::class, 'create']);
 Route::get('/boards/{board}', [BoardController::class, 'read']);
 
+
 Route::get('/users/mypage', [UserController::class, 'index']);

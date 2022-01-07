@@ -20,48 +20,41 @@
             </tr>
         </table> <br>
         <div align="center">
-            <a href="/boards/{{$board->id}}/edit"><button>수정</button></a>
-            <a href="/boards"><button>목록</button></a>
-            <form style="display:inline;" action="/boards/{{ $board->id }}" method="POST">
+            <button id="editBtn">수정</button>
+            <button onclick="location.href='/boards'">목록</button>
+            <form style="display:inline;">
                 @csrf
-                <input type="hidden" name="board_id" value="{{$board->id}}">
+                <input type="hidden"name="board_id" value="{{$board->id}}">
                 <button>삭제</button>
             </form>
         </div>
         <br><br>
-
-{{--        <div class="reply">--}}
-{{--            <p>--}}
-{{--                댓글 목록--}}
-{{--                <form action="/replies/store" method="post" align="right">--}}
-{{--                @csrf--}}
-{{--                    <input type="hidden" name="board_id" value="{{ $board->id }}">--}}
-{{--                    <input type="text" name="content" placeholder="댓글을 작성해주세요.">--}}
-{{--                    <input type="submit" valud="등록">--}}
-{{--                </form>--}}
-{{--            </p> --}}
-{{--            <hr>--}}
-{{--                <table border="1" style="width:800px;">--}}
-{{--                    <tr align="center">--}}
-{{--                        <td style="width:60%; height:40px;">댓글 내용</td>--}}
-{{--                        <td style="width:15%;">작성자</td>--}}
-{{--                        <td style="width:25%;">작성일</td>--}}
-{{--                    </tr>--}}
-{{--                    @foreach($replies as $reply)--}}
-{{--                    <tr align="center">--}}
-{{--                        <td>--}}
-{{--                            {{ $reply->content }}--}}
-{{--                            <a align="right" href="/replies/{{$reply->id}}/edit"><button>수정</button></a>--}}
-{{--                            <a align="right" href="/replies/destroy?id={{$reply->id}}"><button>삭제</button></a>--}}
-{{--                        </td>--}}
-{{--                        <td>{{ $reply->name }}</td>--}}
-{{--                        <td>{{ $reply->created_at }}</td>--}}
-{{--                    </tr>--}}
-{{--                    @endforeach--}}
-{{--                </table>    --}}
-{{--            <br>--}}
-
-{{--            <br>--}}
-{{--        </div>--}}
     </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $('#editBtn').click(function() {
+           const token = localStorage.getItem('token');
+           const id = $('input[name=board_id]').val();
+           const url = location.href='/api/user/boards/'+ id +'/edit';
+
+           $.ajax({
+               url: url,
+               dataType : 'json',
+               beforeSend: function (xhr) {
+                   xhr.setRequestHeader("Accept", "application/json");
+                   xhr.setRequestHeader("Authorization", "Bearer " + token);
+               },
+               success: function (data, request, status, error) {
+                   // alert('게시글 수정폼 성공');
+                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                   console.log(data.data);
+               }, error() {
+                   alert('게시글 수정폼 실패');
+               }
+           });
+
+        });
+    </script>
+
 @endsection

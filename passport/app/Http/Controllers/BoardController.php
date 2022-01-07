@@ -46,37 +46,12 @@ class BoardController extends Controller
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
 
-        return view('boards.read', compact('board'));
-    }
-
-    /**
-     * 게시글 수정폼
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|void
-     */
-    public function edit(Request $request)
-    {
-
-        // 유효성 검사 추가하기 - 01/07
-        $board_id = $request->input('board_id');
-        $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
-            ->where([['boards.id', $board_id],['boards.status', 0]])
-            ->join('users', 'users.id', '=', 'boards.member_id')
-            ->first();
-
         if (!$board) {
             echo '존재하지 않는 게시글';
         }
 
-        $user_info = Board::select('users.id')
-            ->where([['boards.id', $board_id], ['boards.status', 0]])
-            ->join('users', 'users.id', '=', 'boards.member_id')
-            ->first();
-
-        if ($user_info->id != Auth::user()->id) {
-            echo "수정 권한이 없습니다.";
-        } else {
-            return view('boards.edit', compact('board'));
-        }
+        return view('boards.read', compact('board'));
     }
+
+
 }

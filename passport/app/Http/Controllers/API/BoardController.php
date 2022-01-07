@@ -7,6 +7,7 @@ use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Client as OClient;
+use Symfony\Component\HttpFoundation\Response;
 
 class BoardController extends Controller
 {
@@ -51,6 +52,12 @@ class BoardController extends Controller
             'content' => 'required|string'
         ]);
 
+        if ($valid->fails()) {
+            return response()->json([
+                'error' => $valid->errors()->all()
+            ], Response::HTTP_BAD_REQUEST );
+        }
+
         $user = Auth::user();
         $target = $user->id;
 
@@ -64,6 +71,38 @@ class BoardController extends Controller
 
         return response()->json(['success' => true, 'alert' => '', 'data' => $board], 200);
 
+    }
+
+    /**
+     * 게시글 수정폼
+     * @param Request $request
+     * @param Board $board
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function edit(Request $request, Board $board)
+    {
+        $user = Auth()->user();
+
+        $board_id = $board->id;
+        $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
+            ->where([['boards.id', $board_id],['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
+
+        if (!$board) {
+            echo '존재하지 않는 게시글';
+        }
+
+        $user_info = Board::select('users.id')
+            ->where([['boards.id', $board_id], ['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
+
+        if ($user_info->id != $user->id) {
+            echo "수정 권한이 없습니다.";
+        } else {
+            return response()->json(['success' => true, 'alert' => '', 'data' => $board], 200);
+        }
     }
 
     // 게시글 수정 저장

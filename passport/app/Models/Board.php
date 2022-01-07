@@ -12,6 +12,7 @@ class Board extends Model
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
+        'id',
         'member_id',
         'title',
         'content',
