@@ -37,15 +37,16 @@ class BoardController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function read(Request $request)
+    public function read(Board $board)
     {
-        $board_id = $request->input('board_id');
+        $board_id = $board->id;
+
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
             ->where('boards.id', $board_id)
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
 
-        return view('board.read', compact('board'));
+        return view('boards.read', compact('board'));
     }
 
     /**

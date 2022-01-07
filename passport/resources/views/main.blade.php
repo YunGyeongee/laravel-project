@@ -2,7 +2,6 @@
 @section('content')
 
     <h2> 게시글 목록 </h2>
-    {{--<button onclick="location.href='/users/mypage'" id="myPageBtn">마이페이지</button>--}}
     <button id="myPageBtn">마이페이지</button>
     <button id="logoutBtn">로그아웃</button>
     <a style="padding-left:780px;"><button id="writeBtn">글쓰기</button></a>
@@ -18,8 +17,8 @@
             </tr>
             @foreach($boards as $board)
             <tr align="center">
-                <td>{{$board->id}}</td>
-                <td><a href="">{{ $board->title }}</a></td>
+                <td>{{ $board->id }}</td>
+                <td><a href="/boards/{{ $board->id }}">{{ $board->title }}</a></td>
                 <td>{{ $board->created_at }}</td>
             </tr>
             @endforeach
