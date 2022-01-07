@@ -24,7 +24,7 @@
             <button onclick="location.href='/boards'">목록</button>
             <form style="display:inline;">
                 @csrf
-                <input type="hidden"name="board_id" value="{{$board->id}}">
+                <input type="hidden" name="board_id" value="{{$board->id}}">
                 <button>삭제</button>
             </form>
         </div>
@@ -33,28 +33,26 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
-        $('#editBtn').click(function() {
-           const token = localStorage.getItem('token');
-           const id = $('input[name=board_id]').val();
-           const url = location.href='/api/user/boards/'+ id +'/edit';
+        $(document).ready(function() {
+            $('#editBtn').click(function () {
+                const token = localStorage.getItem('token');
+                const id = $('input[name=board_id]').val();
 
-           $.ajax({
-               url: url,
-               dataType : 'json',
-               beforeSend: function (xhr) {
-                   xhr.setRequestHeader("Accept", "application/json");
-                   xhr.setRequestHeader("Authorization", "Bearer " + token);
-               },
-               success: function (data, request, status, error) {
-                   // alert('게시글 수정폼 성공');
-                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                   console.log(data.data);
-               }, error() {
-                   alert('게시글 수정폼 실패');
-               }
-           });
-
+                $.ajax({
+                    url: '/api/user/boards/' + id + '/edit',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Authorization", "Bearer " + token);
+                    },
+                    success: function (data) {
+                        alert('게시글 수정폼 성공');
+                        location.href = '/boards/' + id + '/edit';
+                    }, error(data, request, status, error) {
+                        alert(data);
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
         });
     </script>
-
 @endsection

@@ -77,7 +77,7 @@ class BoardController extends Controller
      * 게시글 수정폼
      * @param Request $request
      * @param Board $board
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Request $request, Board $board)
     {
@@ -101,6 +101,10 @@ class BoardController extends Controller
         if ($user_info->id != $user->id) {
             echo "수정 권한이 없습니다.";
         } else {
+//            $data = [];
+//            $data['user'] = $user;
+//            $data['html'] = view('boards.ajax.edit', $data)->render();
+
             return response()->json(['success' => true, 'alert' => '', 'data' => $board], 200);
         }
     }

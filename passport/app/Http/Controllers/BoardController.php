@@ -40,9 +40,8 @@ class BoardController extends Controller
     public function read(Board $board)
     {
         $board_id = $board->id;
-
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
-            ->where('boards.id', $board_id)
+            ->where([['boards.id', $board_id],['boards.status', 0]])
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
 
@@ -51,6 +50,21 @@ class BoardController extends Controller
         }
 
         return view('boards.read', compact('board'));
+    }
+
+    public function edit(Board $board)
+    {
+        $board_id = $board->id;
+        $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
+            ->where([['boards.id', $board_id],['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
+
+        if (!$board) {
+            echo '존재하지 않는 게시글';
+        }
+
+        return view('boards.edit', compact('board'));
     }
 
 

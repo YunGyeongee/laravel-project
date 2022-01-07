@@ -26,6 +26,7 @@ Route::get('/users', [AuthController::class, 'loginIndex']);
 Route::get('/boards', [BoardController::class, 'index'])->name('main');
 Route::get('/boards/create', [BoardController::class, 'create']);
 Route::get('/boards/{board}', [BoardController::class, 'read']);
+Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
 
 
 Route::get('/users/mypage', [UserController::class, 'index']);
