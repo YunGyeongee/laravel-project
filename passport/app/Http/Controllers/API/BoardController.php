@@ -24,44 +24,50 @@ class BoardController extends Controller
     }
 
     /**
+     * 글작성 폼
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create()
+    {
+        $user = Auth::user();
+
+        $data = [];
+        $data['user'] = $user;
+        $data['html'] = view('boards.ajax.create', $data)->render();
+
+        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+    }
+
+    /**
      * 게시글 저장
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|string
      */
     public function store(Request $request)
     {
+        $valid = validator($request->only('title', 'content'),[
+            'title' => 'required|string|max:20',
+            'content' => 'required|string'
+        ]);
 
         $user = Auth::user();
         $target = $user->id;
 
-        $validation = $request->validate([
-           'title' => 'required',
-           'content' => 'required'
+        $board = Board::create([
+            'member_id' => $target,
+            'title' => $request['title'],
+            'content' => $request['content']
         ]);
 
         if(!Auth::attempt($target)) {
             return '로그인 후 이용가능합니다.';
         }
 
-        $data = request()->only('title', 'content');
+        $data = [];
+        $data['data'] = $board;
 
-        $response = post('http://192.168.2.10:8000/oauth/token', [
-            'form_params' => [
-                'title' => $data['title'],
-                'content' => $data['content'],
-                'scope' => '',
-            ]
-        ]);
+        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
 
-        $board = new Board();
-        $board -> member_id = $target;
-        $board -> title = $validation['title'];
-        $board -> content = $validation['content'];
-        $board -> save();
-
-        $dataResponse = json_decode((string) $response->getBody(), true);
-
-        return response()->json(['success' => true, 'alert' => '', 'data' => $dataResponse], 200);
     }
 
     // 게시글 수정 저장

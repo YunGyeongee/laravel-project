@@ -5,7 +5,7 @@
     {{--<button onclick="location.href='/users/mypage'" id="myPageBtn">마이페이지</button>--}}
     <button id="myPageBtn">마이페이지</button>
     <button id="logoutBtn">로그아웃</button>
-    <a href="/boards/create" style="padding-left:780px;"><button>글쓰기</button></a>
+    <a style="padding-left:780px;"><button id="writeBtn">글쓰기</button></a>
 
     <br><br>
 
@@ -30,10 +30,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+
+            const token = localStorage.getItem('token');
+
             $('#logoutBtn').click(function (e) {
-
-                const token = localStorage.getItem('token');
-
                 $.ajax({
                     url: '/api/user/logout',
                     type: 'post',
@@ -51,10 +51,7 @@
                 });
             })
 
-            $('#myPageBtn').click(function (e) {
-
-                const token = localStorage.getItem('token');
-
+            $('#myPageBtn').click(function () {
                 $.ajax({
                     url: '/api/user/myPage',
                     beforeSend: function (xhr) {
@@ -62,15 +59,34 @@
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
                     },
                     success: function (data) {
-                        console.log(data.data);
-                    }, error: function (request,status,error) {
+                        location.href = '/users/mypage';
+                    }, error: function (status, request, error) {
                         if (status === 401) {
                             location.href = '/users';
                         }
                         alert('마이페이지 조회 실패');
-                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        console.log("message:"+request.responseText+"\n"+"error:"+error);
                     }
                 });
+            });
+
+            $('#writeBtn').click(function () {
+               $.ajax({
+                   url: '/api/user/boards/create',
+                   beforeSend: function (xhr) {
+                       xhr.setRequestHeader("Accept", "application/json");
+                       xhr.setRequestHeader("Authorization", "Bearer " + token);
+                   },
+                   success: function (data) {
+                       console.log(data.data);
+                   }, error : function (status) {
+                       if (status === 401) {
+                           alert('로그인 후 글작성이 가능합니다.');
+                           location.href = '/users'
+                       }
+                       console.log('글쓰기폼 통신 실패')
+                   }
+               })
             });
         });
 

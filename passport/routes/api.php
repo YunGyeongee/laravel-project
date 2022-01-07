@@ -29,6 +29,6 @@ Route::prefix('/user')->group(function(){
     Route::group(['middleware' => ['auth:api']],function(){
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get("/myPage", [UserController::class, 'index']);
-        Route::get('/boards/create', [BoardController::class, 'create']);
+        Route::get('/create', [BoardController::class, 'create']);
     });
 });

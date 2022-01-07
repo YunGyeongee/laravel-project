@@ -47,10 +47,12 @@ class UserController extends Controller
             'nickname' => 'required'
         ]);
 
-        $user = Auth::user()->id;
-        $user -> nickname = $validation['nickname'];
-        $user -> save();
+        $user = Auth::user();
+        $user->nickname = $validation['nickname'];
+        $user->save();
 
-        return response()->json(['success' => true, 'alert' => '', 'data' => $user], 200);
+        $data = $user;
+
+        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }
 }
