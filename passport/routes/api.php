@@ -28,7 +28,9 @@ Route::prefix('/user')->group(function(){
 
     Route::group(['middleware' => ['auth:api']],function(){
         Route::post('/logout', [AuthController::class, 'logout']);
-        Route::get("/myPage", [UserController::class, 'index']);
+        Route::get('/myPage', [UserController::class, 'index']);
+        Route::post('/myPage/update', [UserController::class, 'update']);
         Route::get('/boards/create', [BoardController::class, 'create']);
+        Route::post('/boards/store', [BoardController::class, 'store']);
     });
 });

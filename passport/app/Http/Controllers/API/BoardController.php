@@ -55,13 +55,9 @@ class BoardController extends Controller
 
         $board = Board::create([
             'member_id' => $target,
-            'title' => $request['title'],
-            'content' => $request['content']
+            'title' => $valid['title'],
+            'content' => $valid['content']
         ]);
-
-        if(!Auth::attempt($target)) {
-            return '로그인 후 이용가능합니다.';
-        }
 
         $data = [];
         $data['data'] = $board;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,15 +43,24 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $validation = $request->validate([
-            'nickname' => 'required'
+        $valid = validator($request->only('nickname'),[
+            'nickname' => 'required|string'
         ]);
 
-        $user = Auth::user();
-        $user->nickname = $validation['nickname'];
-        $user->save();
+        if ($valid->fails()) {
+            return response()->json([
+                'error' => $valid->errors()->all()
+            ], Response::HTTP_BAD_REQUEST );
+        }
 
-        $data = $user;
+        $nickname = $request->input('nickname');
+
+        $user = DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->update(['nickname' => $nickname]);
+
+        $data = [];
+        $data['data'] = $user;
 
         return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }

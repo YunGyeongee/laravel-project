@@ -22,7 +22,7 @@
                 const pwd = $("input[name='password']").val();
 
                 $.ajax({
-                    url: "/api/user/login",
+                    url: '/api/user/login',
                     type: 'POST',
                     dataType : 'json',
                     data: {
