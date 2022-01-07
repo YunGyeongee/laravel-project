@@ -12,7 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    // 회원가입
+    /**
+     * 회원가입
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function register(Request $request)
     {
         $valid = validator($request->only('email', 'name', 'password'),[
@@ -63,7 +68,12 @@ class AuthController extends Controller
 
     }
 
-    // 로그인
+    /**
+     * 로그인
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function login(Request $request)
     {
 
@@ -104,7 +114,11 @@ class AuthController extends Controller
         return response()->json(['success' => true, 'alert' => '', 'data' => $result_data], 200);
     }
 
-    // 리프레시 토큰 받아서 액세스 토큰 새로 고침
+    /**
+     * 리프레시 토큰 받아서 액세스 토큰 새로 고침
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function tokenRefresh(Request $request)
     {
         $userRequest = validator($request->only('refresh_token'),[
@@ -146,15 +160,17 @@ class AuthController extends Controller
         }
     }
 
-    // 로그아웃
+    /**
+     * 로그아웃
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
-        if (Auth::check()) {
-            $token = Auth::user()->token();
-            $token->revoke();
-            return view('index');
-        } else {
-            return '정상적으로 로그아웃 되지 않았습니다.';
-        }
+        $user = Auth::user();
+
+        $data = [];
+        $data['user'] = $user->logout;
+
+        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }
 }

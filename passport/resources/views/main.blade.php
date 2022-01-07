@@ -32,14 +32,21 @@
         $(document).ready(function() {
             $('#logoutBtn').click(function (e) {
 
-                e.preventDefault();
+                const token = localStorage.getItem('token');
+
                 $.ajax({
                     url: '/api/user/logout',
                     type: 'post',
-                    success: function () {
+                    dataType : 'json',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Authorization", "Bearer " + token);
+                    },
+                    success: function (data) {
+                        console.log(data.data);
                         window.location.replace('/');
                     }, error() {
-                        alert('ajax 통신 실패');
+                        alert('로그아웃 실패');
                     }
                 });
             })

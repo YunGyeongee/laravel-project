@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +17,7 @@ class AuthController extends Controller
      */
     public function registerIndex()
     {
-        return view('auth.register');
+        return view('auth.ajax.register');
     }
 
     /**
@@ -27,6 +26,6 @@ class AuthController extends Controller
      */
     public function loginIndex()
     {
-        return view('auth.login');
+        return view('auth.ajax.login');
     }
 }

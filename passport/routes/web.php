@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\BoardController;
-use App\Http\Controllers\API\UserController;
-use App\Models\Board;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BoardController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +25,4 @@ Route::get('/users', [AuthController::class, 'loginIndex']);
 
 Route::get('/boards', [BoardController::class, 'index'])->name('main');
 
-Route::get('/users/mypage', [\App\Http\Controllers\UserController::class, 'index']);
+Route::get('/users/mypage', [UserController::class, 'index']);
