@@ -13,7 +13,20 @@
             const token = localStorage.getItem('token');
 
             $.ajax({
-                url: '/'
+                url: '/api/user/boards/create',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                success: function (data) {
+                    $(".create-table").html(data.data.html);
+                }, error : function (status) {
+                    if (status === 401) {
+                        alert('로그인 후 글작성이 가능합니다.');
+                        location.href = '/users'
+                    }
+                    console.log('boards.create 통신 실패');
+                }
             });
         });
     </script>

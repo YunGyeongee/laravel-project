@@ -65,7 +65,6 @@
                             location.href = '/users';
                         }
                         alert('마이페이지 조회 실패');
-                        console.log("message:"+request.responseText+"\n"+"error:"+error);
                     }
                 });
             });
@@ -78,15 +77,16 @@
                        xhr.setRequestHeader("Authorization", "Bearer " + token);
                    },
                    success: function (data) {
-                       console.log(data.data);
+                       console.log(data.data.html);
+                       location.href = '/boards/create';
                    }, error : function (status) {
                        if (status === 401) {
                            alert('로그인 후 글작성이 가능합니다.');
                            location.href = '/users'
                        }
-                       console.log('글쓰기폼 통신 실패')
+                       alert('글쓰기폼 통신 실패');
                    }
-               })
+               });
             });
         });
 

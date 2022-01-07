@@ -7,7 +7,7 @@
         </tr>
         <tr align="center">
             <td style="height:40px;">작성자</td>
-            <td>ㅈㅅㅈ</td>
+            <td>{{ $user->name }}</td>
         </tr>
         <tr align="center">
             <td style="height:200px;">내용</td>
