@@ -35,5 +35,6 @@ Route::prefix('/user')->group(function(){
         Route::get('/boards/create', [BoardController::class, 'create']);
         Route::post('/boards/store', [BoardController::class, 'store']);
         Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
+        Route::post('/boards/update', [BoardController::class, 'update']);
     });
 });

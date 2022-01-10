@@ -45,11 +45,11 @@
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
                     },
                     success: function (data) {
-                        alert('게시글 수정폼 성공');
+                        // console.log(data.data);
                         location.href = '/boards/' + id + '/edit';
                     }, error(data, request, status, error) {
-                        alert(data);
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log(data.data);
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });

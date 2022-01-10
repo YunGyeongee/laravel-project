@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Client as OClient;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -79,15 +80,11 @@ class BoardController extends Controller
      * @param Board $board
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Request $request, Board $board)
+    public function edit(Board $board)
     {
-        $user = Auth()->user();
+        $user = Auth::user();
 
         $board_id = $board->id;
-        $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
-            ->where([['boards.id', $board_id],['boards.status', 0]])
-            ->join('users', 'users.id', '=', 'boards.member_id')
-            ->first();
 
         if (!$board) {
             echo '존재하지 않는 게시글';
@@ -101,24 +98,58 @@ class BoardController extends Controller
         if ($user_info->id != $user->id) {
             echo "수정 권한이 없습니다.";
         } else {
-//            $data = [];
-//            $data['user'] = $user;
-//            $data['html'] = view('boards.ajax.edit', $data)->render();
+            $data = [];
+            $data['user'] = $user;
+            $data['board'] = $board;
+            $data['html'] = view('boards.ajax.edit', $data)->render();
 
-            return response()->json(['success' => true, 'alert' => '', 'data' => $board], 200);
+            return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
         }
     }
 
     // 게시글 수정 저장
     public function update(Request $request, Board $board)
     {
-        $board_id = $request->input('board_id');
-        $board->update([
-            'title' => request('title'),
-            'content' => request('content')
+        $valid = validator($request->only('title', 'content'),[
+            'title' => 'required',
+            'content' => 'required'
         ]);
 
-        return redirect('/boards/'.$board_id);
+        if ($valid->fails()) {
+            return response()->json([
+                'error' => $valid->errors()->all()
+            ], Response::HTTP_BAD_REQUEST );
+        }
+
+        $board_id = $board->id;
+        $title = request('title');
+        $content = request('content');
+
+        if (!$board) {
+            echo '존재하지 않는 게시글';
+        }
+
+        $user = Auth::user();
+        $target = $user->id;
+
+        $user_info = Board::select('users.id')
+            ->where([['boards.id', $board_id], ['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
+
+//        if ($user_info->id != $target) {
+//            echo "수정 권한이 없습니다.";
+//        } else {
+            $board = DB::table('boards')
+                -> where('id', $board_id)
+                -> update([['title', $title], ['content', $content]]);
+
+            $data = [];
+            $data['user'] = $user;
+            $data['board'] = $board;
+
+            return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+//        }
     }
 
     // 게시글 삭제하기
@@ -134,7 +165,10 @@ class BoardController extends Controller
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
 
-        if ($user_info->id != Auth::user()->id) {
+        $user = Auth::user();
+        $target = $user->id;
+
+        if ($user_info->id != $target) {
             echo "수정 권한이 없습니다.";
         } else {
             if (!$board) {
