@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Models\Reply;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,11 +34,12 @@ class BoardController extends Controller
     }
 
     /**
-     * 게시글 상세보기
-     * @param Request $request
+     * 게시물 상세보기
+     * @param Board $board
+     * @param Reply $reply
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function read(Board $board)
+    public function read(User $user, Board $board)
     {
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
@@ -49,7 +51,13 @@ class BoardController extends Controller
             echo '존재하지 않는 게시글';
         }
 
-        return view('boards.read', compact('board'));
+        $replies = Reply::select('replies.id','users.name', 'replies.content', 'replies.created_at')
+            ->where([['board_id', $board_id], ['replies.status', 0]])
+            ->join('users', 'users.id', '=', 'replies.member_id')
+            ->orderBy('replies.id', 'desc')
+            ->get();
+
+        return view('boards.read', compact('user','board', 'replies'));
     }
 
     public function edit(Board $board)

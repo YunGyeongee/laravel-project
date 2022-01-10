@@ -28,6 +28,40 @@
         <br><br>
     </div>
 
+    <div class="reply">
+        <p>댓글 목록 </p>
+        <form align="right">
+            @csrf
+            <input type="hidden" name="board_id" value="{{ $board->id }}">
+            <input type="hidden" name="member_id" value="{{ $board->name }}">
+            <input type="text" name="content" placeholder="댓글을 작성해주세요.">
+            <input type="submit" id="replyBtn" valud="등록">
+        </form>
+        </p>
+        <hr>
+        <table border="1" style="width:800px;">
+            <tr align="center">
+                <td style="width:60%; height:40px;">댓글 내용</td>
+                <td style="width:15%;">작성자</td>
+                <td style="width:25%;">작성일</td>
+            </tr>
+            @foreach($replies as $reply)
+                <tr align="center">
+                    <td>
+                        {{ $reply->content }}
+                        <a align="right" href=""><button>수정</button></a>
+                        <a align="right" href=""><button>삭제</button></a>
+                    </td>
+                    <td>{{ $reply->member_id }}</td>
+                    <td>{{ $reply->created_at }}</td>
+                </tr>
+            @endforeach
+        </table>
+        <br>
+
+        <br>
+    </div>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -72,6 +106,31 @@
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
+            });
+        });
+
+        $('#replyBtn').click(function() {
+            const token = localStorage.getItem('token');
+            const content = $("input[name='content']").val();
+
+            $.ajax({
+                url: 'api/user/replies/store',
+                type: 'post',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                data:{
+                    content: content
+                },
+                success: function (data) {
+                    alert('댓글 작성 성공');
+                    location.href = '/boards';
+                }, error(data, request, status, error) {
+                    alert('replyBtn 오류');
+                    alert(data.data);
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
             });
         });
     </script>

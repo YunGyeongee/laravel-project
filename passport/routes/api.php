@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BoardController;
+use App\Http\Controllers\API\ReplyController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,5 +38,7 @@ Route::prefix('/user')->group(function(){
         Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
         Route::post('/boards/{board}', [BoardController::class, 'update']);
         Route::post('/boards/{board}/destroy', [BoardController::class, 'destroy']);
+
+        Route::post('/replies/store', [ReplyController::class, 'store']);
     });
 });
