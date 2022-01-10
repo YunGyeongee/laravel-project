@@ -6,6 +6,7 @@
 
     <div class="board-table" style="width:800px;">
         <table border="1" style="width:800px;">
+            <input type="hidden" name="board_id" value="{{ $board->id }}">
             <tr align="center">
                 <td style="width:30%; height:40px;">글제목</td>
                 <td>{{ $board->title }}</td>
@@ -44,6 +45,7 @@
                         // console.log(data.data);
                         location.href = '/boards/' + id + '/edit';
                     }, error(data, request, status, error) {
+                        console.log('editBtn 에러');
                         console.log(data.data);
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
@@ -55,7 +57,7 @@
                 const id = $('input[name=board_id]').val();
 
                 $.ajax({
-                    url: '/api/user/boards/' + id ,
+                    url: '/api/user/boards/' + id +'/destroy',
                     type:'post',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");
@@ -65,6 +67,7 @@
                         console.log(data.data);
                         location.href = '/boards';
                     }, error(data, request, status, error) {
+                        console.log('deleteBtn 오류');
                         console.log(data.data);
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }

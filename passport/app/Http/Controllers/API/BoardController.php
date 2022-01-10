@@ -166,13 +166,13 @@ class BoardController extends Controller
     }
 
     /**
-     * 게시글 삭제하기
-     * @param Request $request
+     * 게시글 삭제
+     * @param Board $board
      * @return \Illuminate\Http\JsonResponse|string|void
      */
-    public function destroy(Request $request)
+    public function destroy(Board $board)
     {
-        $board_id = $request->input('board_id');
+        $board_id = $board->id;
         $board = Board::select('status')
             ->where('id', $board_id)
             ->first();
