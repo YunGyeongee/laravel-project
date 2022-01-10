@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Client as OClient;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Response;
 
 class BoardController extends Controller
@@ -76,7 +77,6 @@ class BoardController extends Controller
 
     /**
      * 게시글 수정폼
-     * @param Request $request
      * @param Board $board
      * @return \Illuminate\Http\JsonResponse
      */
@@ -85,6 +85,10 @@ class BoardController extends Controller
         $user = Auth::user();
 
         $board_id = $board->id;
+        $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
+            ->where([['boards.id', $board_id],['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
 
         if (!$board) {
             echo '존재하지 않는 게시글';
@@ -107,7 +111,12 @@ class BoardController extends Controller
         }
     }
 
-    // 게시글 수정 저장
+    /**
+     * 게시글 수정 저장
+     * @param Request $request
+     * @param Board $board
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function update(Request $request, Board $board)
     {
         $valid = validator($request->only('title', 'content'),[
@@ -122,37 +131,45 @@ class BoardController extends Controller
         }
 
         $board_id = $board->id;
-        $title = request('title');
-        $content = request('content');
+        $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
+            ->where([['boards.id', $board_id],['boards.status', 0]])
+            ->join('users', 'users.id', '=', 'boards.member_id')
+            ->first();
+
+        $title = Input::only('title');
+        $content = Input::only('content');
 
         if (!$board) {
             echo '존재하지 않는 게시글';
         }
 
         $user = Auth::user();
-        $target = $user->id;
 
         $user_info = Board::select('users.id')
             ->where([['boards.id', $board_id], ['boards.status', 0]])
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
 
-//        if ($user_info->id != $target) {
-//            echo "수정 권한이 없습니다.";
-//        } else {
+        if ($user_info->id != $user->id) {
+            echo "수정 권한이 없습니다.";
+        } else {
             $board = DB::table('boards')
                 -> where('id', $board_id)
-                -> update([['title', $title], ['content', $content]]);
+                -> update([['title' => $title], ['content' => $content]]);
 
             $data = [];
             $data['user'] = $user;
             $data['board'] = $board;
 
             return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
-//        }
+        }
     }
 
-    // 게시글 삭제하기
+    /**
+     * 게시글 삭제하기
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|string|void
+     */
     public function destroy(Request $request)
     {
         $board_id = $request->input('board_id');
@@ -179,7 +196,11 @@ class BoardController extends Controller
                 $result = Board::where('id', $board_id)->update(['status' => 1]);
 
                 if ($result > 0) {
-                    return redirect('/boards');
+                    $data = [];
+                    $data['user'] = $user;
+                    $data['board'] = $board;
+
+                    return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
                 } else {
                     return '오류가 발생하였습니다.';
                 }

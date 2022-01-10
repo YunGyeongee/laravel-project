@@ -16,7 +16,7 @@
         </tr>
     </table> <br>
     <div align="center">
-        <input type="submit" id="storeBtn" value="저장">
+        <input type="submit" id="updateBtn" value="저장">
         <input type="reset" id="reBtn" value="취소">
     </div>
 </form>
@@ -27,14 +27,15 @@
         location.href = '/boards';
     });
 
-    $('#storeBtn').click(function() {
+    $('#updateBtn').click(function() {
 
+        const id = $("input[name=board_id]").val();
         const token = localStorage.getItem('token');
         const title = $("input[name='title']").val();
         const content = $("textarea[name='content']").val();
 
         $.ajax({
-            url: '/api/user/boards/update',
+            url: '/api/user/boards/' + id,
             type: 'POST',
             dataType : 'json',
             beforeSend: function (xhr) {
@@ -47,7 +48,7 @@
             },
             success: function(data) {
                 alert("게시글 수정 성공");
-                location.href = '/boards';
+                location.href = '/boards' + id;
             }, error(request, status, error){
                 alert("게시글 수정 실패");
                 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

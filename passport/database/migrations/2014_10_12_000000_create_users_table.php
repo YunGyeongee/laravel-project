@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('nickname');
-            $table->string('status');
+            $table->string('nickname'); // null 허용
+            $table->string('status'); // default 값 0
             $table->rememberToken();
             $table->timestamps();
         });
