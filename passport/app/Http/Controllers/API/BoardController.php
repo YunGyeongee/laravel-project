@@ -136,8 +136,8 @@ class BoardController extends Controller
             ->join('users', 'users.id', '=', 'boards.member_id')
             ->first();
 
-        $title = Input::only('title');
-        $content = Input::only('content');
+        $title = request('title');
+        $content = request('content');
 
         if (!$board) {
             echo '존재하지 않는 게시글';
@@ -155,7 +155,7 @@ class BoardController extends Controller
         } else {
             $board = DB::table('boards')
                 -> where('id', $board_id)
-                -> update([['title' => $title], ['content' => $content]]);
+                -> update(['title' => $title, 'content' => $content]);
 
             $data = [];
             $data['user'] = $user;

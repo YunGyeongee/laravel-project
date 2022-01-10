@@ -47,8 +47,8 @@
                 content: content,
             },
             success: function(data) {
-                alert("게시글 수정 성공");
-                location.href = '/boards' + id;
+                // alert("게시글 수정 성공");
+                location.href = '/boards/' + id ;
             }, error(request, status, error){
                 alert("게시글 수정 실패");
                 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
