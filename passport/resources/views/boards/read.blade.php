@@ -28,7 +28,7 @@
         <br><br>
     </div>
 
-    <div class="reply">
+    <div class="reply" style="width:800px;">
         <p>댓글 목록 </p>
         <form align="right">
             @csrf
@@ -52,7 +52,7 @@
                         <a align="right" href=""><button>수정</button></a>
                         <a align="right" href=""><button>삭제</button></a>
                     </td>
-                    <td>{{ $reply->member_id }}</td>
+                    <td>{{ $reply->name }}</td>
                     <td>{{ $reply->created_at }}</td>
                 </tr>
             @endforeach
@@ -112,9 +112,10 @@
         $('#replyBtn').click(function() {
             const token = localStorage.getItem('token');
             const content = $("input[name='content']").val();
+            const id = $('input[name=board_id]').val();
 
             $.ajax({
-                url: 'api/user/replies/store',
+                url: '/api/user/boards/' + id + '/replies/store',
                 type: 'post',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
@@ -125,7 +126,7 @@
                 },
                 success: function (data) {
                     alert('댓글 작성 성공');
-                    location.href = '/boards';
+                    location.href = '/boards/' + id;
                 }, error(data, request, status, error) {
                     alert('replyBtn 오류');
                     alert(data.data);
