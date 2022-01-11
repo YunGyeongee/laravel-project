@@ -15,7 +15,7 @@ class CreateRepliesTable extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('board_id');
+            $table->string('board_id');
             $table->string('member_id');
             $table->string('content');
             $table->string('status'); // default 값 0

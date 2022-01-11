@@ -146,7 +146,7 @@ class ReplyController extends Controller
         $board_id = $board->id;
         $reply_id = $reply->id;
         $reply = Reply::select('status')
-            ->where([['id', $reply_id], ['status', 0]])
+            ->where([['id', $reply_id], ['board_id', $board_id], ['status', 0]])
             ->first();
 
         $user_info = Reply::select('users.id')

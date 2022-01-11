@@ -31,4 +31,4 @@ Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
 
 Route::get('/users/mypage', [UserController::class, 'index']);
 
-Route::get('/replies/{replies}/edit', [ReplyController::class, 'edit']);
+Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);

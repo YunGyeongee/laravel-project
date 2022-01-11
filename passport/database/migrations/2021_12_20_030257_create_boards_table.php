@@ -18,7 +18,7 @@ class CreateBoardsTable extends Migration
             $table->string('member_id');
             $table->string('title');
             $table->text('content');
-            $table->string('status');
+            $table->string('status'); // default 값 0
             $table->timestamps();
         });
     }

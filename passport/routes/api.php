@@ -40,7 +40,7 @@ Route::prefix('/user')->group(function(){
         Route::post('/boards/{board}/destroy', [BoardController::class, 'destroy']);
         Route::post('/boards/{board}/replies/store', [ReplyController::class, 'store']);
 
-        Route::get('/replies/{replies}/edit', [ReplyController::class, 'store']);
-        Route::post('/replies/{replies}/destroy', [ReplyController::class, 'destroy']);
+        Route::get('/replies/{reply}/edit', [ReplyController::class, 'store']);
+        Route::post('/replies/{reply}/destroy', [ReplyController::class, 'destroy']);
     });
 });
