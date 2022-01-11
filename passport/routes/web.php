@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,5 @@ Route::get('/boards/{board}', [BoardController::class, 'read']);
 Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
 
 Route::get('/users/mypage', [UserController::class, 'index']);
+
+Route::get('/replies/{replies}/edit', [ReplyController::class, 'edit']);

@@ -49,8 +49,9 @@
                 <tr align="center">
                     <td>
                         {{ $reply->content }}
-                        <a align="right" href=""><button>수정</button></a>
-                        <a align="right" href=""><button>삭제</button></a>
+                        <input type="hidden" name="reply_id" value="{{ $reply->id }}">
+                        <button id="reEditBtn">수정</button>
+                        <button id="reDeleteBtn">삭제</button>
                     </td>
                     <td>{{ $reply->name }}</td>
                     <td>{{ $reply->created_at }}</td>
@@ -131,6 +132,49 @@
                     alert('replyBtn 오류');
                     alert(data.data);
                     alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
+            });
+        });
+
+        $('#reEditBtn').click(function() {
+            const token = localStorage.getItem('token');
+            const id = $('input[name=reply_id]').val();
+
+            $.ajax({
+                url: '/api/user/replies/' + id + '/edit',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                success: function (data) {
+                    console.log(data.data);
+                    location.href = '/boards';
+                }, error(data, request, status, error) {
+                    console.log('reEditBtn 에러');
+                    console.log(data.data);
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
+            });
+        });
+
+        $('reDeleteBtn').click(function() {
+            const token = localStorage.getItem('token');
+            const id = $('input[name=reply_id]').val();
+
+            $.ajax({
+                url: '/api/user/replies/' + id +'/destroy',
+                type:'post',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                success: function (data) {
+                    console.log(data.data);
+                    location.href = '/boards';
+                }, error(data, request, status, error) {
+                    console.log('deleteBtn 오류');
+                    console.log(data.data);
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
             });
         });

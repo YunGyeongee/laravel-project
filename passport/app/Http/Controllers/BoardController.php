@@ -60,6 +60,11 @@ class BoardController extends Controller
         return view('boards.read', compact('user','board', 'replies'));
     }
 
+    /**
+     * 게시글 수정폼
+     * @param Board $board
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function edit(Board $board)
     {
         $board_id = $board->id;
