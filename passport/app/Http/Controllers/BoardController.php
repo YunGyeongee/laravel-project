@@ -39,7 +39,7 @@ class BoardController extends Controller
      * @param Reply $reply
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function read(User $user, Board $board)
+    public function read(User $user, Board $board, Reply $reply)
     {
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
@@ -51,7 +51,7 @@ class BoardController extends Controller
             echo '존재하지 않는 게시글';
         }
 
-        $replies = Reply::select('replies.id','users.name', 'replies.content', 'replies.created_at')
+        $replies = Reply::select('replies.id', 'users.name', 'replies.content', 'replies.created_at')
             ->where([['board_id', $board_id], ['replies.status', 0]])
             ->join('users', 'users.id', '=', 'replies.member_id')
             ->orderBy('replies.id', 'desc')

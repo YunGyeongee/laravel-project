@@ -47,17 +47,14 @@ class ReplyController extends Controller
     /**
      * 댓글 수정폼
      * @param Reply $reply
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Reply $reply)
     {
-        $user = Auth::user();
-
         $reply_id = $reply->id;
-        $reply = Reply::select('replies.id', 'boards.id', 'users.name', 'replies.content')
+        $reply = Reply::select('replies.id', 'users.name', 'replies.content')
             ->where([['replies.id', $reply_id], ['replies.status', 0]])
             ->join('users', 'users.id', '=', 'replies.member_id')
-            ->join('boards', 'boards.id', '=', 'replies.board_id')
             ->first();
 
         if (!$reply) {
@@ -66,10 +63,13 @@ class ReplyController extends Controller
 
         $user_info = Reply::select('users.id')
             ->where([['replies.id', $reply_id], ['replies.status', 0]])
-            ->join(['users', 'users.id', '=', 'replies.member_id'])
+            ->join('users', 'users.id', '=', 'replies.member_id')
             ->first();
 
-        if ($user_info->id != $user->id) {
+        $user = Auth::user();
+        $login_user = $user->id;
+
+        if ($user_info->id != $login_user) {
             echo '수정 권한이 없습니다.';
         } else {
             $data = [];
@@ -81,30 +81,91 @@ class ReplyController extends Controller
         }
     }
 
-    public function destroy(Reply $reply)
+    /**
+     * 댓글 수정 저장
+     * @param Request $request
+     * @param Reply $reply
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function update(Request $request, Reply $reply)
     {
+        $valid = validator($request->only('content'),[
+            'content' => 'required|string|max:50',
+        ]);
+
+        if ($valid->fails()) {
+            return response()->json([
+                'error' => $valid->errors()->all()
+            ], Response::HTTP_BAD_REQUEST );
+        }
+
         $reply_id = $reply->id;
-        $reply = Reply::select('status')
-            ->where('id', $reply_id)
+        $reply = Reply::select('replies.id', 'replies.board_id', 'users.name', 'replies.content')
+            ->where([['replies.id', $reply_id], ['replies.status', 0]])
+            ->join('users', 'users.id', '=', 'replies.member_id')
             ->first();
+
+        $content = request('content');
+
+        if (!$reply) {
+            echo '존재하지 않는 댓글';
+        }
+
+        $user = Auth::user();
+        $login_user = $user->id;
 
         $user_info = Reply::select('users.id')
             ->where([['replies.id', $reply_id], ['replies.status', 0]])
-            ->join(['users', 'users.id', '=', 'replies.member_id'])
+            ->join('users', 'users.id', '=', 'replies.member_id')
+            ->first();
+
+        if ($user_info->id != $login_user) {
+            echo '수정 권한이 없습니다.';
+        } else {
+            $reply = DB::table('replies')
+                ->where('id', $reply_id)
+                ->update(['content' => $content]);
+
+            $data = [];
+            $data['user'] = $user;
+            $data['reply'] = $reply;
+
+            return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+
+        }
+    }
+
+    /**
+     * 댓글 삭제
+     * @param Board $board
+     * @param Reply $reply
+     * @return \Illuminate\Http\JsonResponse|string|void
+     */
+    public function destroy(Board $board, Reply $reply)
+    {
+        $board_id = $board->id;
+        $reply_id = $reply->id;
+        $reply = Reply::select('status')
+            ->where([['id', $reply_id], ['status', 0]])
+            ->first();
+
+        $user_info = Reply::select('users.id')
+            ->where([['replies.id', $reply_id], ['replies.board_id', $board_id]])
+            ->join('users', 'users.id', '=', 'replies.member_id')
             ->first();
 
         $user = Auth::user();
-        $target = $user->id;
+        $login_user = $user->id;
 
-        if ($user_info->id != $target) {
+        if ($user_info->id != $login_user) {
             echo '수정 권한이 없습니다.';
         } else {
             if (!$reply) {
-                return '존재하지 않는 게시글 입니다.';
+                return '존재하지 않는 댓글 입니다.';
             } else if ($reply->status == 1) {
-                return '이미 삭제된 게시글 입니다.';
+                return '이미 삭제된 댓글 입니다.';
             } else {
-                $result = Board::where('id', $reply_id)->update(['status' => 1]);
+                $result = Reply::where('id', $reply_id)->update(['status' => 1]);
 
                 if ($result > 0) {
                     $data = [];

@@ -154,8 +154,8 @@ class BoardController extends Controller
             echo "수정 권한이 없습니다.";
         } else {
             $board = DB::table('boards')
-                -> where('id', $board_id)
-                -> update(['title' => $title, 'content' => $content]);
+                ->where('id', $board_id)
+                ->update(['title' => $title, 'content' => $content]);
 
             $data = [];
             $data['user'] = $user;

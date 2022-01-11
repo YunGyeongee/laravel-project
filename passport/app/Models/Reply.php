@@ -18,10 +18,10 @@ class Reply extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id', 
+        'id',
         'board_id',
-        'member_id', 
-        'content', 
+        'member_id',
+        'content',
         'status',
     ];
 

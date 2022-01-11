@@ -58,9 +58,7 @@
                 </tr>
             @endforeach
         </table>
-        <br>
-
-        <br>
+        <br><br>
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -157,10 +155,11 @@
             });
         });
 
-        $('reDeleteBtn').click(function() {
+        $('#reDeleteBtn').click(function() {
             const token = localStorage.getItem('token');
             const id = $('input[name=reply_id]').val();
 
+            alert(id);
             $.ajax({
                 url: '/api/user/replies/' + id +'/destroy',
                 type:'post',
@@ -170,9 +169,9 @@
                 },
                 success: function (data) {
                     console.log(data.data);
-                    location.href = '/boards';
+                    // location.href = '/boards';
                 }, error(data, request, status, error) {
-                    console.log('deleteBtn 오류');
+                    console.log('reDeleteBtn 오류');
                     console.log(data.data);
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
