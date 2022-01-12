@@ -50,6 +50,7 @@
                     <td>
                         {{ $reply->content }}
                         <input type="hidden" name="reply_id" value="{{ $reply->id }}">
+                        <input type="hidden" name="reply_content" value="{{ $reply->content }}">
                         <button id="reEditBtn">수정</button>
                         <button id="reDeleteBtn">삭제</button>
                     </td>
@@ -75,7 +76,7 @@
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
                     },
                     success: function (data) {
-                        // console.log(data.data);
+                        console.log(data.data);
                         location.href = '/boards/' + id + '/edit';
                     }, error(data, request, status, error) {
                         console.log('editBtn 에러');
@@ -110,7 +111,7 @@
 
         $('#replyBtn').click(function() {
             const token = localStorage.getItem('token');
-            const content = $("input[name='content']").val();
+            const content = $('input[name=content]').val();
             const id = $('input[name=board_id]').val();
 
             $.ajax({
@@ -136,13 +137,19 @@
 
         $('#reEditBtn').click(function() {
             const token = localStorage.getItem('token');
-            const id = $('input[name=reply_id]').val();
+            const content = $('input[name=reply_content]').val();
+            const rid = $('input[name=reply_id]').val();
+            const bid = $('input[name=board_id]').val();
 
             $.ajax({
-                url: '/api/user/replies/' + id + '/edit',
+                url: '/api/user/replies/' + rid + '/edit',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                data:{
+                    bid: bid,
+                    content: content,
                 },
                 success: function (data) {
                     console.log(data.data);
