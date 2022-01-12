@@ -159,7 +159,6 @@
             const token = localStorage.getItem('token');
             const id = $('input[name=reply_id]').val();
 
-            alert(id);
             $.ajax({
                 url: '/api/user/replies/' + id +'/destroy',
                 type:'post',
@@ -169,7 +168,7 @@
                 },
                 success: function (data) {
                     console.log(data.data);
-                    // location.href = '/boards';
+                    location.href = '/boards';
                 }, error(data, request, status, error) {
                     console.log('reDeleteBtn 오류');
                     console.log(data.data);

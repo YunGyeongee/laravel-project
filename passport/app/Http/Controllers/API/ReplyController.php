@@ -141,16 +141,15 @@ class ReplyController extends Controller
      * @param Reply $reply
      * @return \Illuminate\Http\JsonResponse|string|void
      */
-    public function destroy(Board $board, Reply $reply)
+    public function destroy(Reply $reply)
     {
-        $board_id = $board->id;
         $reply_id = $reply->id;
         $reply = Reply::select('status')
-            ->where([['id', $reply_id], ['board_id', $board_id], ['status', 0]])
+            ->where([['id', $reply_id], ['status', 0]])
             ->first();
 
         $user_info = Reply::select('users.id')
-            ->where([['replies.id', $reply_id], ['replies.board_id', $board_id]])
+            ->where('replies.id', $reply_id)
             ->join('users', 'users.id', '=', 'replies.member_id')
             ->first();
 
@@ -165,17 +164,13 @@ class ReplyController extends Controller
             } else if ($reply->status == 1) {
                 return '이미 삭제된 댓글 입니다.';
             } else {
-                $result = Reply::where('id', $reply_id)->update(['status' => 1]);
+                $reply = Reply::where('id', $reply_id)->update(['status' => 1]);
 
-                if ($result > 0) {
-                    $data = [];
-                    $data['user'] = $user;
-                    $data['reply'] = $reply;
+                $data = [];
+                $data['user'] = $user;
+                $data['reply'] = $reply;
 
-                    return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
-                } else {
-                    return '오류가 발생하였습니다.';
-                }
+                return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
             }
         }
     }

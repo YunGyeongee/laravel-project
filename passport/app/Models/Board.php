@@ -16,5 +16,6 @@ class Board extends Model
         'member_id',
         'title',
         'content',
+        'status',
     ];
 }
