@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BoardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,9 @@ Route::get('/users', [UserController::class, 'loginIndex']);
 
 Route::get('/users/mypage', [UserController::class, 'mypageIndex']);
 
-//Route::get('/boards', [BoardController::class, 'index'])->name('main');
+Route::get('/boards', [BoardController::class, 'index'])->name('main');
+Route::get('/boards/create', [BoardController::class, 'create']);
+Route::get('/boards/{board}', [BoardController::class, 'read']);
+Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
+
+Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);

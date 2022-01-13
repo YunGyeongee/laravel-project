@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\BoardController;
 use App\Http\Controllers\API\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,5 +25,15 @@ Route::prefix('/user')->group(function() {
         Route::get('/myPage', [UserController::class, 'mypage']);
         Route::post('/myPage/update', [UserController::class, 'update']);
 
+        Route::get('/boards/create', [BoardController::class, 'create']);
+        Route::post('/boards/store', [BoardController::class, 'store']);
+        Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
+        Route::post('/boards/{board}', [BoardController::class, 'update']);
+        Route::post('/boards/{board}/destroy', [BoardController::class, 'destroy']);
+        Route::post('/boards/{board}/replies/store', [ReplyController::class, 'store']);
+
+        Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
+        Route::post('/replies/{reply}', [ReplyController::class, 'update']);
+        Route::post('/replies/{reply}/destroy', [ReplyController::class, 'destroy']);
     });
 });
