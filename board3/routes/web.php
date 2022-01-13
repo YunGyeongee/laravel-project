@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
+Route::get('/users/register', [UserController::class, 'registerIndex']);
+Route::get('/users', [UserController::class, 'loginIndex']);
+
+Route::get('/users/mypage', [UserController::class, 'mypageIndex']);
+
+//Route::get('/boards', [BoardController::class, 'index'])->name('main');
