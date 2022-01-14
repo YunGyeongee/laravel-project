@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\API\UserManaController;
 use App\Http\Controllers\Front\API\BoardController;
 use App\Http\Controllers\Front\API\ReplyController;
 use App\Http\Controllers\Front\API\UserController;
@@ -39,6 +39,7 @@ Route::prefix('/user')->group(function() {
         Route::post('/replies/{reply}/destroy', [ReplyController::class, 'destroy']);
 
 
-
+        /* 관리자 */
+        Route::get('/adminpage', [UserManaController::class, 'index']);
     });
 });

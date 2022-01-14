@@ -2,8 +2,11 @@
 @section('content')
 
     <h2> 게시글 목록 </h2>
+
     <button id="myPageBtn">마이페이지</button>
     <button id="logoutBtn">로그아웃</button>
+    <button id="adminHomeBtn">관리자 페이지</button>
+
     <a style="padding-left:670px;"><button id="writeBtn">글쓰기</button></a>
 
     <br><br>
@@ -29,7 +32,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-
             const token = localStorage.getItem('token');
 
             $('#logoutBtn').click(function (e) {
@@ -86,6 +88,25 @@
                        alert('글쓰기폼 통신 실패');
                    }
                });
+            });
+
+            $('#adminHomeBtn').click(function () {
+                $.ajax({
+                    url: '/api/user/adminpage',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Authorization", "Bearer " + token);
+                    },
+                    success: function (data) {
+                        location.href = '/admin'
+                    }, error : function (status) {
+                        if (status === 401) {
+                            alert('로그인 후 이용해주세요.');
+                        }
+                        alert('관리자만 볼 수 있는 페이지 입니다.');
+                        location.href = '/boards';
+                    }
+                });
             });
         });
     </script>
