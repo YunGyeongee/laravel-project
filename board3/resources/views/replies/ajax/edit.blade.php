@@ -11,17 +11,17 @@
 <script>
     $('#updateBtn').click(function() {
         const token = localStorage.getItem('token');
-        const rid = $("input[name='reply_id']").val();
+        const id = $("input[name='reply_id']").val();
         const bid = $("input[name='board_id']").val();
         const content = $("textarea[name='content']").val();
 
         $.ajax({
-            url: '/api/user/replies/' + rid,
+            url: '/api/user/replies/' + id,
             type: 'POST',
             dataType: 'json',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Accept", "application/json");
-                xhr.setRequestHeader("Authorization", "Bearer" + token);
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
             },
             data: {
                 content: content

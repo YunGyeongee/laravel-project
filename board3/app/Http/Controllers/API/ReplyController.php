@@ -56,7 +56,7 @@ class ReplyController extends Controller
         $login_user = $user->id;
 
         $reply_id = $reply->id;
-        $reply = Reply::select('replies.id', 'users.name', 'replies.content')
+        $reply = Reply::select('replies.id', 'replies.board_id', 'users.name', 'replies.content')
             ->where([['replies.id', $reply_id], ['replies.status', 1]])
             ->join('users', 'users.id', '=', 'replies.user_id')
             ->first();
@@ -91,7 +91,7 @@ class ReplyController extends Controller
     public function update(Request $request, Reply $reply)
     {
         $valid = validator($request->only('content'),[
-            'content' => 'required|string|max:50',
+            'content' => 'required',
         ]);
 
         if ($valid->fails()) {
