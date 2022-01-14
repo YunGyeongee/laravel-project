@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\BoardController;
-use App\Http\Controllers\API\ReplyController;
-use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Front\API\BoardController;
+use App\Http\Controllers\Front\API\ReplyController;
+use App\Http\Controllers\Front\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,5 +37,8 @@ Route::prefix('/user')->group(function() {
         Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
         Route::post('/replies/{reply}', [ReplyController::class, 'update']);
         Route::post('/replies/{reply}/destroy', [ReplyController::class, 'destroy']);
+
+
+
     });
 });

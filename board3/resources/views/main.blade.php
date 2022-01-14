@@ -4,7 +4,7 @@
     <h2> 게시글 목록 </h2>
     <button id="myPageBtn">마이페이지</button>
     <button id="logoutBtn">로그아웃</button>
-    <a style="padding-left:780px;"><button id="writeBtn">글쓰기</button></a>
+    <a style="padding-left:670px;"><button id="writeBtn">글쓰기</button></a>
 
     <br><br>
 
@@ -88,9 +88,5 @@
                });
             });
         });
-
-
-
     </script>
-
 @endsection

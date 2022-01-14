@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\BoardController;
-use App\Http\Controllers\ReplyController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Front\BoardController;
+use App\Http\Controllers\Front\ReplyController;
+use App\Http\Controllers\Front\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,7 @@ Route::get('/boards/{board}', [BoardController::class, 'read']);
 Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
 
 Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
+
+
+/* 관리자 */
+Route::get('/admin-home', [HomeController::class, 'index']);
