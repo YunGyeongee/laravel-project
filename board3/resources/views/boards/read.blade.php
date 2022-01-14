@@ -33,7 +33,7 @@
         <form align="right">
             @csrf
             <input type="hidden" name="board_id" value="{{ $board->id }}">
-            <input type="hidden" name="member_id" value="{{ $board->name }}">
+            <input type="hidden" name="user_id" value="{{ $board->name }}">
             <input type="text" name="content" placeholder="댓글을 작성해주세요.">
             <input type="submit" id="replyBtn" valud="등록">
         </form>
@@ -107,80 +107,81 @@
                     }
                 });
             });
-        });
 
-        $('#replyBtn').click(function() {
-            const token = localStorage.getItem('token');
-            const content = $('input[name=content]').val();
-            const id = $('input[name=board_id]').val();
+            $('#replyBtn').click(function() {
+                const token = localStorage.getItem('token');
+                const content = $('input[name=content]').val();
+                const id = $('input[name=board_id]').val();
 
-            $.ajax({
-                url: '/api/user/boards/' + id + '/replies/store',
-                type: 'post',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Accept", "application/json");
-                    xhr.setRequestHeader("Authorization", "Bearer " + token);
-                },
-                data:{
-                    content: content
-                },
-                success: function (data) {
-                    alert('댓글 작성 성공');
-                    location.href = '/boards/' + id;
-                }, error(data, request, status, error) {
-                    alert('replyBtn 오류');
-                    alert(data.data);
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                }
+                $.ajax({
+                    url: '/api/user/boards/' + id + '/replies/store',
+                    type: 'post',
+                    dataType : 'json',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Authorization", "Bearer " + token);
+                    },
+                    data:{
+                        content: content
+                    },
+                    success: function (data) {
+                        // alert('댓글 작성 성공');
+                        location.href = '/boards/' + id;
+                    }, error(data, request, status, error) {
+                        alert('replyBtn 오류');
+                        alert(data.data);
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
             });
-        });
 
-        $('#reEditBtn').click(function() {
-            const token = localStorage.getItem('token');
-            const content = $('input[name=reply_content]').val();
-            const rid = $('input[name=reply_id]').val();
-            const bid = $('input[name=board_id]').val();
+            $('#reEditBtn').click(function() {
+                const token = localStorage.getItem('token');
+                const content = $('input[name=reply_content]').val();
+                const rid = $('input[name=reply_id]').val();
+                const bid = $('input[name=board_id]').val();
 
-            $.ajax({
-                url: '/api/user/replies/' + rid + '/edit',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Accept", "application/json");
-                    xhr.setRequestHeader("Authorization", "Bearer " + token);
-                },
-                data:{
-                    bid: bid,
-                    content: content,
-                },
-                success: function (data) {
-                    console.log(data.data);
-                    location.href = '/boards';
-                }, error(data, request, status, error) {
-                    console.log('reEditBtn 에러');
-                    console.log(data.data);
-                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                }
+                $.ajax({
+                    url: '/api/user/replies/' + rid + '/edit',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Authorization", "Bearer " + token);
+                    },
+                    data:{
+                        bid: bid,
+                        content: content,
+                    },
+                    success: function (data) {
+                        console.log(data.data);
+                        location.href = '/replies/' + rid + '/edit' ;
+                    }, error(data, request, status, error) {
+                        console.log('reEditBtn 에러');
+                        console.log(data.data);
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
             });
-        });
 
-        $('#reDeleteBtn').click(function() {
-            const token = localStorage.getItem('token');
-            const id = $('input[name=reply_id]').val();
+            $('#reDeleteBtn').click(function() {
+                const token = localStorage.getItem('token');
+                const id = $('input[name=reply_id]').val();
 
-            $.ajax({
-                url: '/api/user/replies/' + id +'/destroy',
-                type:'post',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Accept", "application/json");
-                    xhr.setRequestHeader("Authorization", "Bearer " + token);
-                },
-                success: function (data) {
-                    console.log(data.data);
-                    location.href = '/boards';
-                }, error(data, request, status, error) {
-                    console.log('reDeleteBtn 오류');
-                    console.log(data.data);
-                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                }
+                $.ajax({
+                    url: '/api/user/replies/' + id +'/destroy',
+                    type:'post',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Authorization", "Bearer " + token);
+                    },
+                    success: function (data) {
+                        console.log(data.data);
+                        location.href = '/boards';
+                    }, error(data, request, status, error) {
+                        console.log('reDeleteBtn 오류');
+                        console.log(data.data);
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
             });
         });
     </script>

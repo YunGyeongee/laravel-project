@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\BoardController;
+use App\Http\Controllers\API\ReplyController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 

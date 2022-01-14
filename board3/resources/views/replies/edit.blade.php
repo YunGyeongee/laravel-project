@@ -4,7 +4,7 @@
     <h2 style="padding-left:350px;"> 댓글 수정 </h2>
     <br><br>
 
-    <div id="reply-edit-table" style="width:800px;">
+    <div class="reply-edit-table" style="width:800px;">
         <input type="hidden" name="reply_id" value="{{ $reply->id }}">
     </div>
 

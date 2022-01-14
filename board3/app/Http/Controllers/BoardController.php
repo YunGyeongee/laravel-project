@@ -34,10 +34,9 @@ class BoardController extends Controller
     /**
      * 게시물 상세보기
      * @param Board $board
-     * @param Reply $reply
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function read(User $user, Board $board, Reply $reply)
+    public function read(User $user, Board $board)
     {
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')

@@ -7,6 +7,7 @@ use App\Models\Board;
 use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReplyController extends Controller
@@ -51,6 +52,9 @@ class ReplyController extends Controller
      */
     public function edit(Reply $reply)
     {
+        $user = Auth::user();
+        $login_user = $user->id;
+
         $reply_id = $reply->id;
         $reply = Reply::select('replies.id', 'users.name', 'replies.content')
             ->where([['replies.id', $reply_id], ['replies.status', 1]])
@@ -65,9 +69,6 @@ class ReplyController extends Controller
             ->where([['replies.id', $reply_id], ['replies.status', 1]])
             ->join('users', 'users.id', '=', 'replies.user_id')
             ->first();
-
-        $user = Auth::user();
-        $login_user = $user->id;
 
         if ($user_info->id != $login_user) {
             echo '수정 권한이 없습니다.';
@@ -145,7 +146,7 @@ class ReplyController extends Controller
     {
         $reply_id = $reply->id;
         $reply = Reply::select('status')
-            ->where([['id', $reply_id], ['status', 1]])
+            ->where('id', $reply_id)
             ->first();
 
         $user_info = Reply::select('users.id')
@@ -159,18 +160,22 @@ class ReplyController extends Controller
         if ($user_info->id != $login_user) {
             echo '수정 권한이 없습니다.';
         } else {
-            if ($reply == 0) {
+            if (!$reply) {
                 return '존재하지 않는 댓글 입니다.';
             } else if ($reply->status == 0) {
                 return '이미 삭제된 댓글 입니다.';
             } else {
                 $reply = Reply::where('id', $reply_id)->update(['status' => 0]);
 
-                $data = [];
-                $data['user'] = $user;
-                $data['reply'] = $reply;
+                if ($reply == 0) {
+                    $data = [];
+                    $data['user'] = $user;
+                    $data['reply'] = $reply;
 
-                return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+                    return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+                } else {
+                    return '오류가 발생하였습니다.';
+                }
             }
         }
     }
