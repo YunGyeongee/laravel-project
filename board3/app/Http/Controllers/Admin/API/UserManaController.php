@@ -39,14 +39,14 @@ class UserManaController extends Controller
      */
     public function editInfo(Request $request)
     {
-        $user_id = $request->input('id');
+        $user_id = $_POST['id'];
 
         $user = DB::table('users')
             ->where('id', $user_id)
             ->update(['status' => 0]);
 
-        $user_info = Auth::user();
-        $user_status = $user_info->status;
+        $login_info = Auth::user();
+        $user_status = $login_info->status;
 
         if ($user_status != 3) {
             echo '관리자가 아닙니다.';

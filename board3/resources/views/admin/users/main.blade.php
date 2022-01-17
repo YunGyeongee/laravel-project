@@ -26,28 +26,6 @@
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        $('#editInfo').click(function () {
-            const token = localStorage.getItem('token');
-            const id = $("input[name='id']").val();
 
-            $.ajax({
-                url: '/api/user/admin/destroy',
-                type: 'post',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Accept", "application/json");
-                    xhr.setRequestHeader("Authorization", "Bearer " + token);
-                },
-                data: {
-                    id: id,
-                },
-                success: function () {
-                    location.href = '/admin/users';
-                }, error(data, status) {
-                    alert('강제탈퇴 실패');
-                }
-            });
-        })
-    </script>
 
 @endsection

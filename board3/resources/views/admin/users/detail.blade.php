@@ -7,6 +7,7 @@
 
     <div class="user-table" style="width: 1000px;">
         <table border="1" style="width: 1000px;">
+            <input type="hidden" name="user_id" value="{{ $user->id }}">
             <tr align="center" style="height: 40px;">
                 <th style="width: 40%;">회원 번호</th>
                 <td>{{ $user->id }}</td>
@@ -34,6 +35,7 @@
         </table>
         <br>
         <div class="edit" align="right">
+            <button onclick="location.href='/admin/users'">이전으로</button>
             <button id="editInfo">회원 강제 탈퇴</button>
         </div>
     </div>
@@ -42,7 +44,7 @@
     <script>
         $('#editInfo').click(function () {
             const token = localStorage.getItem('token');
-            const id =
+            const user_id = $("input[name='user_id']").val();
 
             $.ajax({
                 url: '/api/user/admin/destroy',
@@ -51,13 +53,15 @@
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
                 },
+                dataType: 'json',
+                data: {
+                    id: user_id,
+                },
                 success: function (data) {
                     console.log(data.data);
-                    location.reload('/admin/users');
+                    location.href = '/admin/users';
                 }, error(data, status) {
                     alert('강제탈퇴 실패');
-                    alert(data.data);
-                    alert(status);
                 }
             });
         })
