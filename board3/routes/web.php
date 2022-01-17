@@ -40,8 +40,9 @@ Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
 Route::get('/admin', [HomeController::class, 'index']);
 
 Route::get('/admin/users', [UserManaController::class, 'index']);
-Route::get('/admin/users/{user}', [UserManaController::class, 'read']);
+Route::get('/admin/users/view/{user}', [UserManaController::class, 'read']);
 
 Route::get('/admin/boards', [BoardManaController::class, 'index']);
-Route::get('/admin/boards/{board}', [BoardManaController::class, 'read']);
 Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
+Route::get('/admin/boards/view/{board}', [BoardManaController::class, 'read']);
+Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);

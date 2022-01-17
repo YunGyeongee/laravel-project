@@ -20,7 +20,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->status }}</td>
-                    <td><a href="/admin/users/{{ $user->id }}">회원 정보</a></td>
+                    <td><a href="/admin/users/view/{{ $user->id }}">회원 정보</a></td>
                 </tr>
             @endforeach
         </table>

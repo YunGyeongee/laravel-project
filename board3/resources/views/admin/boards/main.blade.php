@@ -21,7 +21,7 @@
                     <td>{{ $board->title }}</td>
                     <td>{{ $board->name }}</td>
                     <td>{{ $board->status }}</td>
-                    <td><a href="/admin/boards/{{ $board->id }}">게시물 정보</a></td>
+                    <td><a href="/admin/boards/view/{{ $board->id }}">게시물 정보</a></td>
                 </tr>
             @endforeach
         </table>
@@ -29,26 +29,24 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $('#writeBtn').click(function () {
             const token = localStorage.getItem('token');
-            $('#writeBtn').click(function () {
-                $.ajax({
-                    url: '/api/user/admin/boards/create',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Accept", "application/json");
-                        xhr.setRequestHeader("Authorization", "Bearer " + token);
-                    },
-                    success: function (data) {
-                        console.log(data.data.html);
-                        location.href = '/admin/boards/create';
-                    }, error : function (status) {
-                        if (status === 401) {
-                            alert('로그인 후 글작성이 가능합니다.');
-                            location.href = '/users'
-                        }
-                        alert('글쓰기폼 통신 실패');
+            $.ajax({
+                url: '/api/user/admin/boards/create',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                success: function (data) {
+                    console.log(data.data.html);
+                    location.href = '/admin/boards/create';
+                }, error : function (status) {
+                    if (status === 401) {
+                        alert('로그인 후 글작성이 가능합니다.');
+                        location.href = '/users'
                     }
-                });
+                    alert('글쓰기폼 통신 실패');
+                }
             });
         });
     </script>

@@ -44,7 +44,7 @@
                location.href = '/admin/boards';
            }, error(status, request, error) {
                alert(data.data);
-               alert('게시글 작성 실패');
+               console.log('admin.boards.ajax.create 통신 실패');
                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
            }
        });

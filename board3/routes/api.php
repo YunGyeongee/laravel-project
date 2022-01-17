@@ -43,8 +43,13 @@ Route::prefix('/user')->group(function() {
 
         /* 관리자 */
         Route::get('/adminpage', [HomeController::class, 'index']);
+
         Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
+
         Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
         Route::post('/admin/boards/store', [BoardManaController::class, 'store']);
+        Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);
+        Route::post('/admin/boards/view/{board}', [BoardManaController::class, 'update']);
+        Route::post('/admin/boards/view/{board}/destroy', [BoardManaController::class, 'destroy']);
     });
 });
