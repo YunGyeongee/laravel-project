@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\API\BoardManaController;
+use App\Http\Controllers\Admin\API\HomeController;
 use App\Http\Controllers\Admin\API\UserManaController;
 use App\Http\Controllers\Front\API\BoardController;
 use App\Http\Controllers\Front\API\ReplyController;
@@ -40,7 +42,9 @@ Route::prefix('/user')->group(function() {
 
 
         /* 관리자 */
-        Route::get('/adminpage', [UserManaController::class, 'index']);
+        Route::get('/adminpage', [HomeController::class, 'index']);
         Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
+        Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
+        Route::post('/admin/boards/store', [BoardManaController::class, 'store']);
     });
 });

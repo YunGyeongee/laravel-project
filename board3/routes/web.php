@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BoardManaController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\UserManaController;
 use App\Http\Controllers\Front\BoardController;
 use App\Http\Controllers\Front\ReplyController;
 use App\Http\Controllers\Front\UserController;
@@ -36,5 +38,10 @@ Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
 
 /* 관리자 */
 Route::get('/admin', [HomeController::class, 'index']);
-Route::get('/admin/users', [HomeController::class, 'userList']);
-Route::get('/admin/users/{user}', [HomeController::class, 'detail']);
+
+Route::get('/admin/users', [UserManaController::class, 'index']);
+Route::get('/admin/users/{user}', [UserManaController::class, 'read']);
+
+Route::get('/admin/boards', [BoardManaController::class, 'index']);
+Route::get('/admin/boards/{board}', [BoardManaController::class, 'read']);
+Route::get('/admin/boards/create', [BoardManaController::class, 'create']);

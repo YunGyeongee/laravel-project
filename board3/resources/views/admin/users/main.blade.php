@@ -2,6 +2,7 @@
 @section('content')
 
     <h2> 회원 관리 목록 </h2>
+    <button onclick="location.href='/admin'">이전으로</button>
     <br><br>
 
     <div class="user-table">
@@ -24,8 +25,4 @@
             @endforeach
         </table>
     </div>
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-
 @endsection
