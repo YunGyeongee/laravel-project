@@ -36,3 +36,5 @@ Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
 
 /* 관리자 */
 Route::get('/admin', [HomeController::class, 'index']);
+Route::get('/admin/users', [HomeController::class, 'userList']);
+Route::get('/admin/users/{user}', [HomeController::class, 'detail']);

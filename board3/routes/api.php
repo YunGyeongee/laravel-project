@@ -41,5 +41,6 @@ Route::prefix('/user')->group(function() {
 
         /* 관리자 */
         Route::get('/adminpage', [UserManaController::class, 'index']);
+        Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
     });
 });
