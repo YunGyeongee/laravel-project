@@ -50,3 +50,4 @@ Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit
 
 Route::get('/admin/categories', [CategoryManaController::class, 'index']);
 Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);
+Route::get('/admin/categories/view/{category}/edit', [CategoryManaController::class, 'edit']);

@@ -55,5 +55,8 @@ Route::prefix('/user')->group(function() {
 
         Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);
         Route::post('/admin/categories/store', [CategoryManaController::class, 'store']);
+        Route::get('/admin/categories/view/{category}/edit', [CategoryManaController::class, 'edit']);
+        Route::post('/admin/categories/view/{category}', [CategoryManaController::class, 'update']);
+        Route::post('/admin/categories/view/{category}/destroy', [CategoryManaController::class, 'destroy']);
     });
 });

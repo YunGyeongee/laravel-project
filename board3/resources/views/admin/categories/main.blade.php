@@ -9,17 +9,20 @@
     <div class="category-table" style="width: 800px;">
         <table border="1" style="width:800px;">
             <tr align="center" style="height:40px;">
-                <td style="width: 15%">카테고리 번호</td>
+                <td style="width: 10%">카테고리 번호</td>
                 <td>카테고리 이름</td>
                 <td style="width: 30%">카테고리 생성일</td>
                 <td style="width: 15%">카테고리 상태</td>
+                <td style="width: 5%">편집</td>
             </tr>
             @foreach($categories as $category)
+                <input type="hidden" name="category_id" value="{{ $category->id }}">
                 <tr align="center">
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td>{{ $category->status }}</td>
+                    <td><a href="/admin/categories/view/{{ $category->id }}/edit">편집</a></td>
                 </tr>
             @endforeach
         </table>
@@ -29,15 +32,16 @@
     <script>
         $('#createBtn').click(function () {
             const token = localStorage.getItem('token');
+            const id = $("input[name=category_id]").val();
             $.ajax({
-                url: '/api/user/admin/categories/create',
+                url: '/api/user/admin/categories/view/' + id + '/edit',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
                 },
                 success: function (data) {
                     console.log(data.data.html);
-                    location.href = '/admin/categories/create';
+                    location.href = '/admin/categories/view/' + id + '/edit';
                 }, error : function (status) {
                     if (status === 401) {
                         alert('로그인 후 글작성이 가능합니다.');

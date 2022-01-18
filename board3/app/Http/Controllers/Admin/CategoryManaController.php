@@ -28,4 +28,23 @@ class CategoryManaController extends Controller
     {
         return view('admin.categories.create');
     }
+
+    /**
+     * 관리자 - 카테고리 수정폼
+     * @param Category $category
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function edit(Category $category)
+    {
+        $category_id = $category->id;
+        $category = category::select('id', 'name', 'status')
+            ->where('id', $category_id)
+            ->first();
+
+        if (!$category) {
+            echo '존재하지 않는 카테고리';
+        }
+
+        return view('admin.categories.edit', compact('category'));
+    }
 }
