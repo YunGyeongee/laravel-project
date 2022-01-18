@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\API\BoardManaController;
+use App\Http\Controllers\Admin\API\CategoryManaController;
 use App\Http\Controllers\Admin\API\HomeController;
 use App\Http\Controllers\Admin\API\UserManaController;
 use App\Http\Controllers\Front\API\BoardController;
@@ -51,5 +52,8 @@ Route::prefix('/user')->group(function() {
         Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);
         Route::post('/admin/boards/view/{board}', [BoardManaController::class, 'update']);
         Route::post('/admin/boards/view/{board}/destroy', [BoardManaController::class, 'destroy']);
+
+        Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);
+        Route::post('/admin/categories/store', [CategoryManaController::class, 'store']);
     });
 });

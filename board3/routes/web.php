@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BoardManaController;
+use App\Http\Controllers\Admin\CategoryManaController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserManaController;
 use App\Http\Controllers\Front\BoardController;
@@ -46,3 +47,6 @@ Route::get('/admin/boards', [BoardManaController::class, 'index']);
 Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
 Route::get('/admin/boards/view/{board}', [BoardManaController::class, 'read']);
 Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);
+
+Route::get('/admin/categories', [CategoryManaController::class, 'index']);
+Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);

@@ -124,6 +124,11 @@ class BoardManaController extends Controller
         return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }
 
+    /**
+     * 관리자 - 게시글 삭제
+     * @param board $board
+     * @return \Illuminate\Http\JsonResponse|string
+     */
     public function destroy(Board $board)
     {
         $board_id = $board->id;
