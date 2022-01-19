@@ -33,6 +33,9 @@
                         nickname: nick,
                     },
                     success: function(data){
+                        const sendData = data.data.token.access_token;
+                        localStorage.setItem('token', sendData);
+
                         console.log(data);
                         window.location.replace('/users');
                     }, error: function (request,status,error) {

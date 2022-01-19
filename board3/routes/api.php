@@ -40,9 +40,10 @@ Route::prefix('/user')->group(function() {
         Route::get('/replies/view/{reply}/edit', [ReplyController::class, 'edit']);
         Route::post('/replies/view/{reply}', [ReplyController::class, 'update']);
         Route::post('/replies/view/{reply}/destroy', [ReplyController::class, 'destroy']);
+    });
 
-
-        /* 관리자 */
+    /* 관리자 */
+    Route::group(['middleware' => ['auth:admin']],function(){
         Route::get('/adminpage', [HomeController::class, 'index']);
 
         Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
@@ -59,4 +60,5 @@ Route::prefix('/user')->group(function() {
         Route::post('/admin/categories/view/{category}', [CategoryManaController::class, 'update']);
         Route::post('/admin/categories/view/{category}/destroy', [CategoryManaController::class, 'destroy']);
     });
+
 });

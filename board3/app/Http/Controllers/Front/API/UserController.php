@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         $loginCredential = $request->validate([
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         if (!Auth::attempt($loginCredential)) {
@@ -87,29 +87,40 @@ class UserController extends Controller
 
         $data = request()->only('email', 'password');
 
-        $client = OClient::where('password_client', 1)->first();
+        $user = User::select('status')
+            ->where([['id', $data['email']], ['password', bcrypt($data['password'])] ,['status', 1]])
+            ->first();
 
-        $http = new \GuzzleHttp\Client();
+        if (!$user) {
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 회원 입니다.', 'data' => ''], 200);
+        } else if ($user->status == 0){
+            return response()->json(['success' => false, 'alert' => '탈퇴 회원입니다.', 'data' => ''], 200);
+        } else {
+            $client = OClient::where('password_client', 1)->first();
 
-        $url = env('APP_URL');
+            $http = new \GuzzleHttp\Client();
 
-        $response = $http->post($url . '/oauth/token', [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => $client->id,
-                'client_secret' => $client->secret,
-                'username' => $data['email'],
-                'password' => $data['password'],
-                'scope' => '',
-            ]
-        ]);
+            $url = env('APP_URL');
 
-        $tokenResponse = json_decode((string) $response->getBody(), true);
+            $response = $http->post($url . '/oauth/token', [
+                'form_params' => [
+                    'grant_type' => 'password',
+                    'client_id' => $client->id,
+                    'client_secret' => $client->secret,
+                    'username' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                    'scope' => '',
+                ]
+            ]);
 
-        $result = [];
-        $result['token'] = $tokenResponse;
+            $tokenResponse = json_decode((string) $response->getBody(), true);
 
-        return response()->json(['success' => true, 'alert' => '', 'data' => $result], 200);
+            $data = [];
+            $data['user'] = $user;
+            $data['token'] = $tokenResponse;
+
+            return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
+        }
     }
 
     /**
