@@ -12,10 +12,6 @@
         <td><input type="text" name="email" value="{{ $user->email }}" readonly></td>
     </tr>
     <tr align="center">
-        <td style="height:40px;">비밀번호</td>
-        <td><input type="password" name="password" value="{{ $user->password }}" readonly></td>
-    </tr>
-    <tr align="center">
         <form method="POST" action="/users/update">
             @csrf
             <td style="height:40px;">닉네임</td>

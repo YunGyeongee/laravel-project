@@ -6,7 +6,7 @@
         <form onsubmit="return false;">
             @csrf
             <label> EMAIL : </label> <input type="text" name="email"> <br>
-            <label> PASSWORD : </label> <input type="text" name="password">
+            <label> PASSWORD : </label> <input type="password" name="password">
             <br><br>
             <button id="loginBtn">로그인</button>
         </form>
