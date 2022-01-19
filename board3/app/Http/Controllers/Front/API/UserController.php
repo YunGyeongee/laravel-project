@@ -88,7 +88,7 @@ class UserController extends Controller
         $data = request()->only('email', 'password');
 
         $user = User::select('status')
-            ->where([['id', $data['email']], ['password', bcrypt($data['password'])] ,['status', 1]])
+            ->where([['email', $data['email']], ['status', 1]])
             ->first();
 
         if (!$user) {
@@ -108,7 +108,7 @@ class UserController extends Controller
                     'client_id' => $client->id,
                     'client_secret' => $client->secret,
                     'username' => $data['email'],
-                    'password' => bcrypt($data['password']),
+                    'password' => $data['password'],
                     'scope' => '',
                 ]
             ]);

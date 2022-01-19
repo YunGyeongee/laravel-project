@@ -37,9 +37,10 @@
                         const sendData = data.data.token.access_token;
                         localStorage.setItem('token', sendData);
 
-                        // window.location.replace('/boards');
+                        window.location.replace('/boards');
                     } else {
                         alert(data.alert);
+                        window.location.reload();
                     }
                 }, error(){
                     alert("로그인 실패");
