@@ -40,25 +40,24 @@ Route::prefix('/user')->group(function() {
         Route::get('/replies/view/{reply}/edit', [ReplyController::class, 'edit']);
         Route::post('/replies/view/{reply}', [ReplyController::class, 'update']);
         Route::post('/replies/view/{reply}/destroy', [ReplyController::class, 'destroy']);
+
+        /* 관리자 */
+        Route::group(['middleware' => ['auth:admin']],function(){
+            Route::get('/adminpage', [HomeController::class, 'index']);
+
+            Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
+
+            Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
+            Route::post('/admin/boards/store', [BoardManaController::class, 'store']);
+            Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);
+            Route::post('/admin/boards/view/{board}', [BoardManaController::class, 'update']);
+            Route::post('/admin/boards/view/{board}/destroy', [BoardManaController::class, 'destroy']);
+
+            Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);
+            Route::post('/admin/categories/store', [CategoryManaController::class, 'store']);
+            Route::get('/admin/categories/view/{category}/edit', [CategoryManaController::class, 'edit']);
+            Route::post('/admin/categories/view/{category}', [CategoryManaController::class, 'update']);
+            Route::post('/admin/categories/view/{category}/destroy', [CategoryManaController::class, 'destroy']);
+        });
     });
-
-    /* 관리자 */
-    Route::group(['middleware' => ['auth:admin']],function(){
-        Route::get('/adminpage', [HomeController::class, 'index']);
-
-        Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
-
-        Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
-        Route::post('/admin/boards/store', [BoardManaController::class, 'store']);
-        Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);
-        Route::post('/admin/boards/view/{board}', [BoardManaController::class, 'update']);
-        Route::post('/admin/boards/view/{board}/destroy', [BoardManaController::class, 'destroy']);
-
-        Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);
-        Route::post('/admin/categories/store', [CategoryManaController::class, 'store']);
-        Route::get('/admin/categories/view/{category}/edit', [CategoryManaController::class, 'edit']);
-        Route::post('/admin/categories/view/{category}', [CategoryManaController::class, 'update']);
-        Route::post('/admin/categories/view/{category}/destroy', [CategoryManaController::class, 'destroy']);
-    });
-
 });
