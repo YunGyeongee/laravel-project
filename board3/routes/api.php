@@ -32,14 +32,14 @@ Route::prefix('/user')->group(function() {
 
         Route::get('/boards/create', [BoardController::class, 'create']);
         Route::post('/boards/store', [BoardController::class, 'store']);
-        Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
-        Route::post('/boards/{board}', [BoardController::class, 'update']);
-        Route::post('/boards/{board}/destroy', [BoardController::class, 'destroy']);
-        Route::post('/boards/{board}/replies/store', [ReplyController::class, 'store']);
+        Route::get('/boards/view/{board}/edit', [BoardController::class, 'edit']);
+        Route::post('/boards/view/{board}', [BoardController::class, 'update']);
+        Route::post('/boards/view/{board}/destroy', [BoardController::class, 'destroy']);
+        Route::post('/boards/view/{board}/replies/store', [ReplyController::class, 'store']);
 
-        Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
-        Route::post('/replies/{reply}', [ReplyController::class, 'update']);
-        Route::post('/replies/{reply}/destroy', [ReplyController::class, 'destroy']);
+        Route::get('/replies/view/{reply}/edit', [ReplyController::class, 'edit']);
+        Route::post('/replies/view/{reply}', [ReplyController::class, 'update']);
+        Route::post('/replies/view/{reply}/destroy', [ReplyController::class, 'destroy']);
 
 
         /* 관리자 */

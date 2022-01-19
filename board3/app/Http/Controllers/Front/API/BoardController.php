@@ -89,7 +89,7 @@ class BoardController extends Controller
             ->first();
 
         if (!$board) {
-            echo '존재하지 않는 게시글';
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 게시글', 'data' => ''], 200);
         }
 
         $user_info = Board::select('users.id')
@@ -98,7 +98,7 @@ class BoardController extends Controller
             ->first();
 
         if ($user_info->id != $login_user) {
-            echo "수정 권한이 없습니다.";
+            return response()->json(['success' => false, 'alert' => '수정 권한이 없습니다.', 'data' => ''], 200);
         } else {
             $data = [];
             $data['user'] = $user;
@@ -138,7 +138,7 @@ class BoardController extends Controller
         $content = request('content');
 
         if (!$board) {
-            echo '존재하지 않는 게시글';
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 게시글', 'data' => ''], 200);
         }
 
         $user = Auth::user();
@@ -150,7 +150,8 @@ class BoardController extends Controller
             ->first();
 
         if ($user_info->id != $login_user) {
-            echo "수정 권한이 없습니다.";
+            return response()->json(['success' => false, 'alert' => '수정 권한이 없습니다.', 'data' => ''], 200);
+
         } else {
             $board = DB::table('boards')
                 ->where('id', $board_id)
@@ -185,12 +186,12 @@ class BoardController extends Controller
         $login_user = $user->id;
 
         if ($user_info->id != $login_user) {
-            echo "수정 권한이 없습니다.";
+            return response()->json(['success' => false, 'alert' => '수정 권한이 없습니다.', 'data' => ''], 200);
         } else {
             if (!$board) {
-                return '존재하지 않는 게시글 입니다.';
+                return response()->json(['success' => false, 'alert' => '존재하지 않는 게시글 입니다.', 'data' => ''], 200);
             } else if ($board->status == 0) {
-                return '이미 삭제된 게시글 입니다.';
+                return response()->json(['success' => false, 'alert' => '이미 삭제된 게시글 입니다.', 'data' => ''], 200);
             } else {
                 $result = Board::where('id', $board_id)->update(['status' => 0]);
 
@@ -201,7 +202,7 @@ class BoardController extends Controller
 
                     return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
                 } else {
-                    return '오류가 발생하였습니다.';
+                    return response()->json(['success' => false, 'alert' => '오류가 발생하였습니다.', 'data' => ''], 200);
                 }
             }
         }

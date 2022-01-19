@@ -31,10 +31,10 @@ Route::get('/users/mypage', [UserController::class, 'mypageIndex']);
 
 Route::get('/boards', [BoardController::class, 'index'])->name('main');
 Route::get('/boards/create', [BoardController::class, 'create']);
-Route::get('/boards/{board}', [BoardController::class, 'read']);
-Route::get('/boards/{board}/edit', [BoardController::class, 'edit']);
+Route::get('/boards/view/{board}', [BoardController::class, 'read']);
+Route::get('/boards/view/{board}/edit', [BoardController::class, 'edit']);
 
-Route::get('/replies/{reply}/edit', [ReplyController::class, 'edit']);
+Route::get('/replies/view/{reply}/edit', [ReplyController::class, 'edit']);
 
 
 /* 관리자 */

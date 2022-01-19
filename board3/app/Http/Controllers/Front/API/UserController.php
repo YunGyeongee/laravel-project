@@ -82,7 +82,7 @@ class UserController extends Controller
         ]);
 
         if (!Auth::attempt($loginCredential)) {
-            return '로그인 정보가 없습니다.';
+            return response()->json(['success' => false, 'alert' => '로그인 정보가 없습니다.', 'data' => ''], 200);
         }
 
         $data = request()->only('email', 'password');

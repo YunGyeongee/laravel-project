@@ -21,7 +21,7 @@
             @foreach($boards as $board)
             <tr align="center">
                 <td>{{ $board->id }}</td>
-                <td><a href="/boards/{{ $board->id }}">{{ $board->title }}</a></td>
+                <td><a href="/boards/view/{{ $board->id }}">{{ $board->title }}</a></td>
                 <td>{{ $board->created_at }}</td>
             </tr>
             @endforeach

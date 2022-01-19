@@ -70,14 +70,14 @@
                 const id = $('input[name=board_id]').val();
 
                 $.ajax({
-                    url: '/api/user/boards/' + id + '/edit',
+                    url: '/api/user/boards/view/' + id + '/edit',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
                     },
                     success: function (data) {
                         // alert('게시물이 성공적으로 수정되었습니다.');
-                        location.href = '/boards/' + id + '/edit';
+                        location.href = '/boards/view/' + id + '/edit';
                     }, error(data, request, status, error) {
                         console.log('editBtn 에러');
                         console.log(data.data);
@@ -91,7 +91,7 @@
                 const id = $('input[name=board_id]').val();
 
                 $.ajax({
-                    url: '/api/user/boards/' + id +'/destroy',
+                    url: '/api/user/boards/view/' + id +'/destroy',
                     type:'post',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");
@@ -114,7 +114,7 @@
                 const id = $('input[name=board_id]').val();
 
                 $.ajax({
-                    url: '/api/user/boards/' + id + '/replies/store',
+                    url: '/api/user/boards/view/' + id + '/replies/store',
                     type: 'post',
                     dataType : 'json',
                     beforeSend: function (xhr) {
@@ -126,7 +126,7 @@
                     },
                     success: function (data) {
                         // alert('댓글 작성 성공');
-                        location.href = '/boards/' + id;
+                        location.href = '/boards/view/' + id;
                     }, error(data, request, status, error) {
                         alert('replyBtn 오류');
                         alert(data.data);
@@ -142,7 +142,7 @@
                 const bid = $('input[name=board_id]').val();
 
                 $.ajax({
-                    url: '/api/user/replies/' + rid + '/edit',
+                    url: '/api/user/replies/view/' + rid + '/edit',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -153,7 +153,7 @@
                     },
                     success: function (data) {
                         console.log(data.data);
-                        location.href = '/replies/' + rid + '/edit' ;
+                        location.href = '/replies/view/' + rid + '/edit' ;
                     }, error(data, request, status, error) {
                         console.log('reEditBtn 에러');
                         console.log(data.data);
@@ -167,7 +167,7 @@
                 const id = $('input[name=reply_id]').val();
 
                 $.ajax({
-                    url: '/api/user/replies/' + id +'/destroy',
+                    url: '/api/user/replies/view/' + id +'/destroy',
                     type:'post',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");

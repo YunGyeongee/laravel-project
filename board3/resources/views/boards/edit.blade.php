@@ -15,7 +15,7 @@
             const id = $("input[name=board_id]").val();
 
             $.ajax({
-                url: '/api/user/boards/' + id + '/edit',
+                url: '/api/user/boards/view/' + id + '/edit',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Authorization", "Bearer " + token);

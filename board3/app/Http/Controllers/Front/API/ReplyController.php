@@ -62,7 +62,7 @@ class ReplyController extends Controller
             ->first();
 
         if (!$reply) {
-            echo '존재하지 않는 댓글';
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 댓글', 'data' => ''], 200);
         }
 
         $user_info = Reply::select('users.id')
@@ -71,7 +71,7 @@ class ReplyController extends Controller
             ->first();
 
         if ($user_info->id != $login_user) {
-            echo '수정 권한이 없습니다.';
+            return response()->json(['success' => false, 'alert' => '수정 권한이 없습니다.', 'data' => ''], 200);
         } else {
             $data = [];
             $data['user'] = $user;
@@ -109,7 +109,7 @@ class ReplyController extends Controller
         $content = request('content');
 
         if (!$reply) {
-            echo '존재하지 않는 댓글';
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 댓글', 'data' => ''], 200);
         }
 
         $user = Auth::user();
@@ -121,7 +121,7 @@ class ReplyController extends Controller
             ->first();
 
         if ($user_info->id != $login_user) {
-            echo '수정 권한이 없습니다.';
+            return response()->json(['success' => false, 'alert' => '수정 권한이 없습니다.', 'data' => ''], 200);
         } else {
             $reply = DB::table('replies')
                 ->where('id', $reply_id)
@@ -158,12 +158,12 @@ class ReplyController extends Controller
         $login_user = $user->id;
 
         if ($user_info->id != $login_user) {
-            echo '수정 권한이 없습니다.';
+            return response()->json(['success' => false, 'alert' => '수정 권한이 없습니다.', 'data' => ''], 200);
         } else {
             if (!$reply) {
-                return '존재하지 않는 댓글 입니다.';
+                return response()->json(['success' => false, 'alert' => '존재하지 않는 댓글', 'data' => ''], 200);
             } else if ($reply->status == 0) {
-                return '이미 삭제된 댓글 입니다.';
+                return response()->json(['success' => false, 'alert' => '이미 삭제된 댓글입니다.', 'data' => ''], 200);
             } else {
                 $reply = Reply::where('id', $reply_id)->update(['status' => 0]);
 

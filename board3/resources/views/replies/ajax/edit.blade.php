@@ -16,7 +16,7 @@
         const content = $("textarea[name='content']").val();
 
         $.ajax({
-            url: '/api/user/replies/' + id,
+            url: '/api/user/replies/view/' + id,
             type: 'POST',
             dataType: 'json',
             beforeSend: function (xhr) {
@@ -28,7 +28,7 @@
             },
             success: function(data) {
                 // alert("댓글 수정 성공");
-                location.href = '/boards/' + bid;
+                location.href = '/boards/view/' + bid;
             }, error: function(request, status, error) {
                 alert("댓글 수정 실패");
                 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

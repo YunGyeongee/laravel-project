@@ -15,7 +15,7 @@
             const id = $("input[name=reply_id]").val();
 
             $.ajax({
-                url: '/api/user/replies/' + id + '/edit',
+                url: '/api/user/replies/view/' + id + '/edit',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
