@@ -15,10 +15,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        var_dump($user); die;
 
         if ($user->status != 3) {
-            return response()->json(['success' => false, 'alert' => '관리자 권한이 없습니다.', 'data' => ''], 200);
+            return response()->json(['success' => false, 'alert' => '관리자 권한이 없습니다.', 'data' => $user], 200);
         }
 
         $data = [];

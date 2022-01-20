@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/user')->group(function() {
     Route::post('/register', [UserController::class, 'register'])->name('user.register');
     Route::post('/login', [UserController::class, 'login'])->name('user.login');
-    Route::get('/adminPage', [HomeController::class, 'index'])->name('admin.main');
 
     Route::group(['middleware' => ['auth:api']],function(){
         Route::post('/logout', [UserController::class, 'logout']);
@@ -42,22 +41,26 @@ Route::prefix('/user')->group(function() {
         Route::get('/replies/view/{reply}/edit', [ReplyController::class, 'edit']);
         Route::post('/replies/view/{reply}', [ReplyController::class, 'update']);
         Route::post('/replies/view/{reply}/destroy', [ReplyController::class, 'destroy']);
+
+        Route::get('/adminPage', [HomeController::class, 'index'])->name('admin.main');
+
+        /* 관리자 */
+        Route::group(['prefix' => 'admin','middleware' => 'admin'], function () {
+            Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
+
+            Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
+            Route::post('/admin/boards/store', [BoardManaController::class, 'store']);
+            Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);
+            Route::post('/admin/boards/view/{board}', [BoardManaController::class, 'update']);
+            Route::post('/admin/boards/view/{board}/destroy', [BoardManaController::class, 'destroy']);
+
+            Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);
+            Route::post('/admin/categories/store', [CategoryManaController::class, 'store']);
+            Route::get('/admin/categories/view/{category}/edit', [CategoryManaController::class, 'edit']);
+            Route::post('/admin/categories/view/{category}', [CategoryManaController::class, 'update']);
+            Route::post('/admin/categories/view/{category}/destroy', [CategoryManaController::class, 'destroy']);
+        });
     });
 
-    /* 관리자 */
-    Route::group(['middleware' => ['auth:admin']],function(){
-        Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
 
-        Route::get('/admin/boards/create', [BoardManaController::class, 'create']);
-        Route::post('/admin/boards/store', [BoardManaController::class, 'store']);
-        Route::get('/admin/boards/view/{board}/edit', [BoardManaController::class, 'edit']);
-        Route::post('/admin/boards/view/{board}', [BoardManaController::class, 'update']);
-        Route::post('/admin/boards/view/{board}/destroy', [BoardManaController::class, 'destroy']);
-
-        Route::get('/admin/categories/create', [CategoryManaController::class, 'create']);
-        Route::post('/admin/categories/store', [CategoryManaController::class, 'store']);
-        Route::get('/admin/categories/view/{category}/edit', [CategoryManaController::class, 'edit']);
-        Route::post('/admin/categories/view/{category}', [CategoryManaController::class, 'update']);
-        Route::post('/admin/categories/view/{category}/destroy', [CategoryManaController::class, 'destroy']);
-    });
 });

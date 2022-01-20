@@ -106,7 +106,13 @@
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
                 },
                 success: function (data) {
-                    location.href = '/admin'
+                    if (data.success) {
+                        location.href = '/admin'
+                    } else {
+                        alert(data.alert);
+                        console.log(data.data);
+                    }
+
                 }, error : function (data, status) {
                     if (status === 401) {
                         alert('로그인 후 이용해주세요.');
