@@ -131,11 +131,9 @@ class UserController extends Controller
     public function logout()
     {
         $user = Auth::user();
-        echo $user; die;
 
         $data = [];
-        $data['user'] = $user->logout;
-
+        $data['user'] = $user;
 
         return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }

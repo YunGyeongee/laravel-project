@@ -17,7 +17,6 @@ class BoardController extends Controller
      */
     public function index()
     {
-        echo $
         $boards = Board::select('id', 'title', 'content', 'created_at')
             ->where('status', 1)
             ->orderBy('id', 'desc')

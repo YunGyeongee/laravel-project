@@ -21,9 +21,13 @@
         $(document).ready(function() {
             $.ajax({
                 url: '/api/user/boards',
+                dataType : 'json',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
+                data: {
+                    _token: "{{ csrf_token() }}"
                 },
                 success: function (data) {
                     $(".board-table").html(data.data.html);
@@ -48,7 +52,8 @@
                 },
                 success: function (data) {
                     console.log(data.data);
-                    // window.location.replace('/');
+                    localStorage.removeItem('token');
+                    window.location.replace('/');
                 }, error() {
                     alert('로그아웃 실패');
                 }
