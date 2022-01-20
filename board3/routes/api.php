@@ -45,7 +45,7 @@ Route::prefix('/user')->group(function() {
         Route::get('/adminPage', [HomeController::class, 'index'])->name('admin.main');
 
         /* 관리자 */
-        Route::group(['prefix' => 'admin','middleware' => 'admin'], function () {
+        Route::group(['middleware' => 'admin'], function () {
             Route::post('/admin/destroy', [UserManaController::class, 'editInfo']);
 
             Route::get('/admin/boards/create', [BoardManaController::class, 'create']);

@@ -21,7 +21,12 @@
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
                 },
                 success: function (data) {
-                    $(".edit-table").html(data.data.html);
+                    if (data.success) {
+                        $(".edit-table").html(data.data.html);
+                    } else {
+                        alert(data.alert);
+                        window.location.href='/admin/boards';
+                    }
                 }, error: function (status) {
                     alert('admin.boards.edit 통신 실패');
                 }

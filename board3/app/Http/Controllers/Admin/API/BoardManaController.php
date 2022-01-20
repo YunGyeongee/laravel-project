@@ -72,14 +72,16 @@ class BoardManaController extends Controller
             ->first();
 
         if (!$board) {
-            echo '존재하지 않는 게시글입니다.';
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 게시글', 'data' => $board], 200);
+        } else if ($board->status == 0) {
+            return response()->json(['success' => false, 'alert' => '이미 삭제된 게시글 입니다.', 'data' => $board], 200);
+        } else {
+            $data = [];
+            $data['board'] = $board;
+            $data['html'] = view('admin.boards.ajax.edit', $data)->render();
+
+            return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
         }
-
-        $data = [];
-        $data['board'] = $board;
-        $data['html'] = view('admin.boards.ajax.edit', $data)->render();
-
-        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }
 
     /**
@@ -103,7 +105,7 @@ class BoardManaController extends Controller
 
         $board_id = $board->id;
         $board = Board::select('boards.id', 'users.name', 'boards.title', 'boards.content')
-            ->where([['boards.id', $board_id],['boards.status', 1]])
+            ->where('boards.id', $board_id)
             ->join('users', 'users.id', '=', 'boards.user_id')
             ->first();
 
@@ -111,17 +113,19 @@ class BoardManaController extends Controller
         $content = request('content');
 
         if (!$board) {
-            echo '존재하지 않는 게시글';
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 게시글', 'data' => $board], 200);
+        } else if ($board->status == 0) {
+            return response()->json(['success' => false, 'alert' => '이미 삭제된 게시글 입니다.', 'data' => $board], 200);
+        } else {
+            $board = DB::table('boards')
+                ->where('id', $board_id)
+                ->update(['title' => $title, 'content' => $content]);
+
+            $data = [];
+            $data['board'] = $board;
+
+            return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
         }
-
-        $board = DB::table('boards')
-            ->where('id', $board_id)
-            ->update(['title' => $title, 'content' => $content]);
-
-        $data = [];
-        $data['board'] = $board;
-
-        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }
 
     /**

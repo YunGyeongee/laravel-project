@@ -47,8 +47,12 @@
                 content: content,
             },
             success: function(data) {
-                // alert("게시글 수정 성공");
-                location.href = '/admin/boards/view/' + id ;
+                if (data.success) {
+                    console.log(data.data);
+                    location.href = '/admin/boards/view/' + id ;
+                } else {
+                    alert(data.alert);
+                }
             }, error(request, status, error){
                 alert("게시글 수정 실패");
                 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
