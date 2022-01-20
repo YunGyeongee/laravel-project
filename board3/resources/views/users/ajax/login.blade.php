@@ -34,9 +34,7 @@
                 },
                 success: function(data) {
                     if (data.success) {
-                        const sendData = data.data.token.access_token;
-                        localStorage.setItem('token', sendData);
-
+                        console.log(data.data);
                         window.location.replace('/boards');
                     } else {
                         alert(data.alert);

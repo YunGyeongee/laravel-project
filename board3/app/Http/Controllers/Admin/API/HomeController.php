@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -14,11 +15,10 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $user_status = $user->status;
+        var_dump($user); die;
 
-        if ($user_status != 3) {
-            echo '관리자가 아닙니다.';
-            return view('/boards');
+        if ($user->status != 3) {
+            return response()->json(['success' => false, 'alert' => '관리자 권한이 없습니다.', 'data' => ''], 200);
         }
 
         $data = [];

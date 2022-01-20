@@ -17,10 +17,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->status == 3) {
+        if (Auth::user()->status == 3){
             return $next($request);
+        } else {
+            return redirect('/');
         }
-
-        return redirect('/');
     }
 }

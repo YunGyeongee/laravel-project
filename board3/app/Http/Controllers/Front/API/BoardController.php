@@ -13,16 +13,23 @@ class BoardController extends Controller
 {
     /**
      * 메인 페이지
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
+        $user = Auth()->user();
+
         $boards = Board::select('id', 'title', 'content', 'created_at')
             ->where('status', 1)
             ->orderBy('id', 'desc')
             ->get();
 
-        return view('main', compact('boards'));
+        $data = [];
+        $data['user'] = $user;
+        $data['boards'] = $boards;
+        $data['html'] = view('ajax.main', $data)->render();
+
+        return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }
 
     /**

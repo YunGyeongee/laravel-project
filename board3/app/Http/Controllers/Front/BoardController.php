@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Board;
 use App\Models\Reply;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use function view;
 
 class BoardController extends Controller
@@ -16,6 +17,7 @@ class BoardController extends Controller
      */
     public function index()
     {
+        echo $
         $boards = Board::select('id', 'title', 'content', 'created_at')
             ->where('status', 1)
             ->orderBy('id', 'desc')

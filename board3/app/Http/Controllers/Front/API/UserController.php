@@ -87,8 +87,9 @@ class UserController extends Controller
 
         $data = request()->only('email', 'password');
 
-        $user = User::select('status')
+        $user = User::select('id', 'name', 'email', 'password', 'nickname', 'status')
             ->where([['email', $data['email']], ['status', 1]])
+            ->orWhere([['email', $data['email']], ['status', 3]])
             ->first();
 
         if (!$user) {
@@ -130,9 +131,11 @@ class UserController extends Controller
     public function logout()
     {
         $user = Auth::user();
+        echo $user; die;
 
         $data = [];
         $data['user'] = $user->logout;
+
 
         return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
     }

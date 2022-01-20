@@ -11,20 +11,21 @@
             const token = localStorage.getItem('token');
 
             $.ajax({
-                url: '/api/user/adminpage',
+                url: '/api/user/adminPage',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Authorization", "Bearer " + token);
                 },
                 success: function (data) {
                     $(".admin-table").html(data.data.html);
-                }, error: function (status) {
+                }, error: function (data, status) {
                     if (status === 401) {
                         alert('다시 로그인 해주세요.');
                         location.href = '/users';
                     }
                     alert('관리자 페이지 조회 실패');
-                    location.href = '/boards';
+                    console.log(data.data);
+                    // location.href = '/boards';
                 }
             });
         });
