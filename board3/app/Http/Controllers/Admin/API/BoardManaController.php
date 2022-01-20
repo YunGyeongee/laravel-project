@@ -141,9 +141,9 @@ class BoardManaController extends Controller
             ->first();
 
         if (!$board) {
-            return '존재하지 않는 게시글 입니다.';
+            return response()->json(['success' => false, 'alert' => '존재하지 않는 게시글', 'data' => $board], 200);
         } else if ($board->status == 0) {
-            return '이미 삭제된 게시글 입니다.';
+            return response()->json(['success' => false, 'alert' => '이미 삭제된 게시글 입니다.', 'data' => $board], 200);
         } else {
             $result = Board::where('id', $board_id)->update(['status' => 0]);
 

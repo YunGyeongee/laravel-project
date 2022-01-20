@@ -19,7 +19,11 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->created_at }}</td>
-                    <td>{{ $user->status }}</td>
+                    @if($user->status == 3)
+                        <td>관리자</td>
+                    @else
+                        <td>회원</td>
+                    @endif
                     <td><a href="/admin/users/view/{{ $user->id }}">회원 정보</a></td>
                 </tr>
             @endforeach
