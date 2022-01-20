@@ -21,8 +21,8 @@
             </tr>
         </table> <br>
         <div align="center">
-            <button id="editBtn">수정</button>
             <button onclick="location.href='/boards'">목록</button>
+            <button id="editBtn">수정</button>
             <button id="deleteBtn">삭제</button>
         </div>
         <br><br>
@@ -76,8 +76,12 @@
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
                     },
                     success: function (data) {
-                        // alert('게시물이 성공적으로 수정되었습니다.');
-                        location.href = '/boards/view/' + id + '/edit';
+                        if (data.success) {
+                            location.href = '/boards/view/' + id + '/edit';
+                        } else {
+                            alert(data.alert);
+                            console.log(data.data);
+                        }
                     }, error(data, request, status, error) {
                         console.log('editBtn 에러');
                         console.log(data.data);
@@ -98,8 +102,12 @@
                         xhr.setRequestHeader("Authorization", "Bearer " + token);
                     },
                     success: function (data) {
-                        // alert('게시물이 성공적으로 삭제되었습니다.');
-                        location.href = '/boards';
+                        if (data.success) {
+                            location.href = '/boards';
+                        } else {
+                            alert(data.alert);
+                            console.log(data.data);
+                        }
                     }, error(data, request, status, error) {
                         console.log('deleteBtn 오류');
                         console.log(data.data);

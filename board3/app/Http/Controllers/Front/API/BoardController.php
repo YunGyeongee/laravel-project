@@ -193,7 +193,7 @@ class BoardController extends Controller
         $login_user = $user->id;
 
         if ($user_info->id != $login_user) {
-            return response()->json(['success' => false, 'alert' => '수정 권한이 없습니다.', 'data' => ''], 200);
+            return response()->json(['success' => false, 'alert' => '삭제 권한이 없습니다.', 'data' => ''], 200);
         } else {
             if (!$board) {
                 return response()->json(['success' => false, 'alert' => '존재하지 않는 게시글 입니다.', 'data' => ''], 200);
@@ -202,15 +202,11 @@ class BoardController extends Controller
             } else {
                 $result = Board::where('id', $board_id)->update(['status' => 0]);
 
-                if ($result == 0) {
-                    $data = [];
-                    $data['user'] = $user;
-                    $data['board'] = $board;
+                $data = [];
+                $data['user'] = $user;
+                $data['board'] = $board;
 
-                    return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
-                } else {
-                    return response()->json(['success' => false, 'alert' => '오류가 발생하였습니다.', 'data' => ''], 200);
-                }
+                return response()->json(['success' => true, 'alert' => '', 'data' => $data], 200);
             }
         }
     }
